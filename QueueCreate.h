@@ -20,15 +20,15 @@ namespace ns3{
         int pair;   //number of queue pairs
         int currentIndex;   //current serve index
 
-        Queue* fifos[PER_PAIR][DEFAULT_PAIR][DEFAULT_PAIR];
+        // Queue* fifos[PER_PAIR][pair][pair];
 
         unit32_t m_limit;   //!< Maximum number of packets that can be stored 
         int VOQ_ON = 5;     //RESUME threshold of VOQ
         int VOQ_OFF = 10;   //PAUSE threshold of VOQ 
         int VIQ_ON = 5;     //RESUME threshold of VIQ
         int VIQ_OFF = 10;   //PAUSE threshold of VOQ 
-        bool VOQ_tag = false;   //if VOQ send PAUSE to upstream then VOQ_tag = true
-        bool VIQ_tag = false;   //if VIQ send PAUSE to VOQ then VIQ_tag = true 
+        // bool VOQ_tag = false;   //if VOQ send PAUSE to upstream then VOQ_tag = true
+        // bool VIQ_tag = false;   //if VIQ send PAUSE to VOQ then VIQ_tag = true 
         
         // int remainingQ = SPEEDUP_FACTOR; // TODO:check if need speedup factor   
         int previous_idx = 0; 
@@ -40,35 +40,38 @@ namespace ns3{
         QueueCreate(int nport, int index);
         ~QueueCreate();
 
-        QueueDiscItem* voqEnqueue(QueueDiscItem* item, int index); 
-        QueueDiscItem* viqEnqueue(QueueDiscItem* item, int index);
-        QueueDiscItem* voqDequeue(int index);
-        QueueDiscItem* viqDequeue(int index); 
+        QueueDiscItem* voqEnqueue(QueueDiscItem* item, int src, int dst); 
+        QueueDiscItem* viqEnqueue(QueueDiscItem* item, int src, int dst);
+        QueueDiscItem* voqDequeue(int src, int dst);
+        QueueDiscItem* viqDequeue(int dst, int src); 
 
-        void RoundRobin()
+        void checkVoqTag(int src, int dst);
+        void checkViqTag(int src, int dst);
 
-        int getCurrentIndex();
-        void setCurrentIndex(int index); // serving FIFO
+        void RoundRobin();
+
+        // int getCurrentIndex();
+        // void setCurrentIndex(int index); // serving FIFO
 
         // void getAndIncrementIndex();
         // int getCurrentFifoSize();
         // int getFifoMaxNPackets();
-        // int getCurrentFifoNPackets();
+        int getCurrentFifoNPackets();
         // int getFifoNPackets(int index);
 
-        bool isCurrentFifoEmpty();
-        bool isSelectedFifoEmpty(int index);
+        // bool isCurrentFifoEmpty();
+        // bool isSelectedFifoEmpty(int index);
 
-        void InitializeRR();
-        void TerminateRR();
-        bool ifLowerthanVoqOn(int size);
-        bool ifHigherthanVoqOff(int size);
-        bool ifLowerthanViqOn(int size);
-        bool ifHigherthanViqOff(int size);
-        int getVoqTag();
-        void setVoqTag(int tag);
-        int getViqTag();
-        void setViqTag(int tag);
+        // void InitializeRR();
+        // void TerminateRR();
+        // bool ifLowerthanVoqOn(int size);
+        // bool ifHigherthanVoqOff(int size);
+        // bool ifLowerthanViqOn(int size);
+        // bool ifHigherthanViqOff(int size);
+        bool getVoqTag(int src, int dst);
+        void setVoqTag(int src, int dst,bool tag);
+        bool getViqTag(int src, int dst);
+        void setViqTag(int src, int dst,bool tag);
 
         void setPreviousIndex(int idx);
         int getPreviousIndex();
