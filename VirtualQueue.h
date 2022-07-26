@@ -16,15 +16,19 @@ namespace ns3{
     class VXQ: public QueueDisc{
     
     private:
-        static const int DEFAULT_VOLUME = (4-1)*2*4;  //default number of VXQs
-        static const int SPEEDUP_FACTOR = 1;    //default spped up
+        static const int DEFAULT_PAIR = 4;  //default number of queue pairs or ports
+        static const int PER_PAIR = 2;  //number of queue groups per queue pair
+        static const int DEFAULT_FIFO_N_SIZE = 20;
+        static const int SPEEDUP_FACTOR = 1;
 
-        int volume; // number of VXQs
+        int pair;   //number of queue pairs
         int currentRound;  // current Round
 
-        int getPktPort(Ptr(QueueDiscItem) item);
-        
+        QueueCreate virtualQueues;
 
+        int getPktPort(Ptr(QueueDiscItem) item);
+        void removePktLabel(Ptr(QueueDisvItem) item);
+        
     public:
         /**
         * \brief Get the type ID.
@@ -54,5 +58,6 @@ namespace ns3{
         // int cal_insert_level(int, int);
 	    // int cal_index(int, int); // calculate the index according to the pkt's departureRound and the level
 
+        void RoundRobin();
     }
 }

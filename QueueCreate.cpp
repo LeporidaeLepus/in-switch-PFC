@@ -83,21 +83,20 @@ namespace ns3{
     QueueDiscItem* QueueCreate::voqEnqueue(QueueDiscItem* item, int src, int dst){
         NS_LOG_FUNCTION(this);
 
-        checkVoqThreshold(src, dst);
+        checkVoqTag(src, dst);
         if((src!=dst) && (VIQ_tag[src][dst]!=true)){
             fifos[0][src][dst]->Enqueue(Ptr<QueueDiscItem>(item));
+            cout<<"VOQ["<<src<<","<<dst<<"] receives a packet."<<endl;
         }
 
         return item;
     }
 
-    QueueDiscItem* QueueCreate::viqEnqueue(QueueDiscItem* item, int src, int dst){
+    QueueDiscItem* QueueCreate::viqEnqueue(QueueDiscItem* item, int src, int dst){ //for in-swtich transmission
         NS_LOG_FUNCTION(this);
 
-        checkViqThreshold(src, dst);
-        if((src!=dst) && (VIQ_tag[dst][src]!=true)){
-            fifos[1][dst][src]->Enqueue(Ptr<QueueDiscItem>(item));
-        }
+        fifos[1][dst][src]->Enqueue(Ptr<QueueDiscItem>(item));
+        cout<<"VIQ["<<dst<<","<<src<<"] receives a packet."<<endl;
 
         return item;
     }
@@ -105,15 +104,8 @@ namespace ns3{
     QueueDiscItem* QueueCreate::voqDequeue(int src, int dst){ //for in-switch transmission
         NS_LOG_FUNCTION(this);
 
-        checkViqThreshold(src, dst);
-        if (VIQ_tag[dst][src]!=trur){
-            Ptr<QueueDiscItem> item = StaticCast<QueueDiscItem>(fifos[0][src][dst]->Dequeue());
-            cout<<"VOQ["<<src<<","<<dst<<"] send a packet out."<<endl;  //for debug
-        }
-        else{
-            Ptr<QueueDiscItem> item = NULL;
-            cout<<"VOQ["<<src<<","<<dst<<"] has been paused, cannot send out packets now."<<endl;   //for debug
-        }
+        Ptr<QueueDiscItem> item = StaticCast<QueueDiscItem>(fifos[0][src][dst]->Dequeue());
+        cout<<"VOQ["<<src<<","<<dst<<"] sends a packet out."<<endl;  //for debug
 
         return GetPointer(item);
     }
@@ -122,7 +114,7 @@ namespace ns3{
         NS_LOG_FUNCTION(this);
 
         Ptr<QueueDiscItem> item = StaticCast<QueueDiscItem>(fifos[1][dst][src]->Dequeue());
-        cout<<"VIQ["<<dst<<","<<src<<"] send a packet out."<<endl;  //for debugging
+        cout<<"VIQ["<<dst<<","<<src<<"] sends a packet out."<<endl;  //for debugging
 
         return GetPointer(item);
     }
@@ -171,20 +163,30 @@ namespace ns3{
         }
 
         void QueueCreate::InSwitchTransmisson(int src, int dst){
-            QueueDiscItem* item = voqDequeue(src,dst);
-            QueueDiscItem* item2 = viqEnqueue(item,src,dst);
+            checkViqTag(src,dst);
+
+            if ((src!=dst) && VIQ_tag[dst][src]!=true){
+                QueueDiscItem* item = voqDequeue(src,dst);
+                QueueDiscItem* item2 = viqEnqueue(item,src,dst);
+            }
+            else if(VIQ_tag[dst][src] == true){
+                cout<<"VOQ["<<src<<","<<dst<<"] has been paused, cannot send out packets now."<<endl;   //for debug
+            }
+            else if(src == dst){
+                cout<<"Output port cannot be the same as input port."   //for debug
+            }  
         }
 
         void QueueCreate::RoundRobin(){
             /* TODO: Round Robin */
         }
 
-        int QueueCreate::getFifoNPackets(int pair, int port, int queue){
-            return fifos[pair][port][queue]->GetNPackets();
+        int QueueCreate::getFifoNPackets(int i, int port, int queue){
+            return fifos[i][port][queue]->GetNPackets();
         }
 
-        bool QueueCreate::isSelectedFifoEmpty(int pair, int port, int queue){
-            return fifos[pair][port][queue]->IsEmpty();
+        bool QueueCreate::isSelectedFifoEmpty(int i, int port, int queue){
+            return fifos[i][port][queue]->IsEmpty();
         }
 
         bool QueueCreate::getVoqTag(int src, int dst){
