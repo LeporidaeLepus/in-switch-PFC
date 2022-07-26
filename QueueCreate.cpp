@@ -42,8 +42,8 @@ namespace ns3{
         Queue* fifos[PER_PAIR][pair][pair];
 
         //create VXQ tag
-        bool VOQ_tag[PER_PAIR][pair][pair];
-        bool VIQ_tag[PER_PAIR][pair][pair];
+        bool VOQ_tag[pair][pair];
+        bool VIQ_tag[pair][pair];
 
         cout<<"VOQ_OFF: "<<VOQ_OFF<<" VOQ_ON: "<<VOQ_ON<<endl;
         cout<<"VIQ_OFF: "<<VIQ_OFF<<" VIQ_ON: "<<VIQ_ON<<endl;
@@ -118,38 +118,89 @@ namespace ns3{
         return GetPointer(item);
     }
 
-    QueueDiscItem* QueueCreate::viqDequeue(int dst, int src){
+    QueueDiscItem* QueueCreate::viqDequeue(int src, int dst){
         NS_LOG_FUNCTION(this);
 
         Ptr<QueueDiscItem> item = StaticCast<QueueDiscItem>(fifos[1][dst][src]->Dequeue());
-        cout<<"VOQ["<<dst<<","<<src<<"] send a packet out."<<endl;  //for debugging
+        cout<<"VIQ["<<dst<<","<<src<<"] send a packet out."<<endl;  //for debugging
 
         return GetPointer(item);
     }
 
     void QueueCreate::checkVoqTag(int src, int dst){
-        int npkt = fifos[0][src][dst]->getCurrentFifoNPackets()
+        int npkt = getFifoNPackets(0,src,dst);
         bool otag = getVoqTag(src,dst);
         
-        if(otag == false){
-            if(npkt < VOQ_OFF){
+        if(otag == false){  
+            if(npkt < VOQ_OFF){ 
                 /* No Action */
             }
-            else if (npkt >= VOQ_OFF){
-                setVoqTag(src,dst,true);
+            else if (npkt >= VOQ_OFF){      //When the num of pkts is larger than the high threshold
+                setVoqTag(src,dst,true);    //Set tag to true and send PAUSE to upstream
             }           
         }
         else if (otag == true){
-            if(npk t>= VOQ_ON){
+            if(npkt >= VOQ_ON){
                 /* No Action */
             }
-            else if(npkt < VOQ_ON){
-                setVoqtag(src,dst,false);
+            else if(npkt < VOQ_ON){         //When the num of pkts is less than the low threshold
+                setVoqTag(src,dst,false);   //Set tag to false and send RESUME to upstream
             }
         }
     }
 
     void QueueCreate::checkViqTag(int src, int dst){
+        int npkt = getFifoNPackets(1,dst,src);
+        bool itag = getViqTag(src,dst);
 
+        if(itag == false){
+            if(npkt < VIQ_OFF){
+                /* No Action */
+            }
+            else if (npkt >= VIQ_OFF){      //When the num of pkts is larger than the high threshold
+                setVoqTag(src,dst,true);    //Set tag to true and send PAUSE to upstream
+            }
+        }
+        else if (itag == true){
+            if(npkt >= VOQ_ON){
+                /* No Action */
+            }
+            else if(npkt < VOQ_ON){         //When the num of pkts is less than the low threshold
+                setViqTag(src,dst,false);   //Set tag to false and send RESUME to upstream
+            }
+        }
+
+        void QueueCreate::InSwitchTransmisson(int src, int dst){
+            QueueDiscItem* item = voqDequeue(src,dst);
+            QueueDiscItem* item2 = viqEnqueue(item,src,dst);
+        }
+
+        void QueueCreate::RoundRobin(){
+            /* TODO: Round Robin */
+        }
+
+        int QueueCreate::getFifoNPackets(int pair, int port, int queue){
+            return fifos[pair][port][queue]->GetNPackets();
+        }
+
+        bool QueueCreate::isSelectedFifoEmpty(int pair, int port, int queue){
+            return fifos[pair][port][queue]->IsEmpty();
+        }
+
+        bool QueueCreate::getVoqTag(int src, int dst){
+            return VOQ_tag[src][dst];
+        }
+
+        void QueueCreate::setVoqTag(int src, int dst, bool tag){
+            VOQ_tag[src][dst] = tag;
+        }
+
+        bool QueueCreate::getViqTag(int src, int dst){
+            return VIQ_tag[dst][src];
+        }
+
+        void QueueCreate::setViqTag(int src, int dst, bool tag){
+            VIQ_tag[dst][src] = tag;
+        }
     }
 }

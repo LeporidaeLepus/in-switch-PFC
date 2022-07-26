@@ -43,11 +43,12 @@ namespace ns3{
         QueueDiscItem* voqEnqueue(QueueDiscItem* item, int src, int dst); 
         QueueDiscItem* viqEnqueue(QueueDiscItem* item, int src, int dst);
         QueueDiscItem* voqDequeue(int src, int dst);
-        QueueDiscItem* viqDequeue(int dst, int src); 
+        QueueDiscItem* viqDequeue(int src, int dst); 
 
         void checkVoqTag(int src, int dst);
         void checkViqTag(int src, int dst);
 
+        void InSwitchTransmission(int src, int dst);
         void RoundRobin();
 
         // int getCurrentIndex();
@@ -56,11 +57,11 @@ namespace ns3{
         // void getAndIncrementIndex();
         // int getCurrentFifoSize();
         // int getFifoMaxNPackets();
-        int getCurrentFifoNPackets();
-        // int getFifoNPackets(int index);
+        // int getCurrentFifoNPackets();
+        int getFifoNPackets(int pair, int port, int queue);
 
         // bool isCurrentFifoEmpty();
-        // bool isSelectedFifoEmpty(int index);
+        bool isSelectedFifoEmpty(int pair, int port, int queue);
 
         // void InitializeRR();
         // void TerminateRR();
@@ -69,12 +70,12 @@ namespace ns3{
         // bool ifLowerthanViqOn(int size);
         // bool ifHigherthanViqOff(int size);
         bool getVoqTag(int src, int dst);
-        void setVoqTag(int src, int dst,bool tag);
+        void setVoqTag(int src, int dst, bool tag);
         bool getViqTag(int src, int dst);
-        void setViqTag(int src, int dst,bool tag);
+        void setViqTag(int src, int dst, bool tag);
 
-        void setPreviousIndex(int idx);
-        int getPreviousIndex();
+        // void setPreviousIndex(int idx);
+        // int getPreviousIndex();
         
 
     }
