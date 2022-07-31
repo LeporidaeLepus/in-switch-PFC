@@ -189,6 +189,15 @@ namespace ns3{
             return fifos[i][port][queue]->IsEmpty();
         }
 
+        bool QueueCreate::isSelectedPortEmpty(int pair, int port){
+            for (int i=0; i<this->nport; i++){
+                if(!isSelectedFifoEmpty(pair,port,i)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
         bool QueueCreate::getVoqFlag(int src, int dst){
             return VOQ_flag[src][dst];
         }

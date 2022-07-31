@@ -62,6 +62,8 @@ namespace ns3{
 
         // bool isCurrentFifoEmpty();
         bool isSelectedFifoEmpty(int pair, int port, int queue);
+        // bool isAllFifoEmpty();
+        bool isSelectedPortEmpty(int pair, int port);
 
         // void InitializeRR();
         // void TerminateRR();

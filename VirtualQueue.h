@@ -22,7 +22,11 @@ namespace ns3{
         static const int SPEEDUP_FACTOR = 1;
 
         int pair;   //number of queue pairs
+        int nport;  //number of ports
         int currentRound;  // current Round
+        int currentPort;    //current port to dequeue
+        int* currentVQueue = NULL;   //current virtual queue to dequeue in each port
+        bool* port_flag = NULL;
 
         QueueCreate virtualQueues;
 
@@ -42,7 +46,10 @@ namespace ns3{
         */
         VXQ();
         explicit VXQ(int);
-        virtual ~VXQ()
+        virtual ~VXQ();
+
+        void roundInit(int*, int);  //Initialize current virtual queue in each port
+        void flagInit(bool*, int);
 
         bool DoEnqueue(Ptr<QueueDiscItem> item);
         Ptr<QueueDiscItem> DoDequeue(void);
@@ -57,6 +64,9 @@ namespace ns3{
         // int cal_theory_departure_round(Ipv4Header, int);
         // int cal_insert_level(int, int);
 	    // int cal_index(int, int); // calculate the index according to the pkt's departureRound and the level
+
+        bool getPortFlag(int);
+        void setPortFlag(int);
 
         void RoundRobin();
     }
