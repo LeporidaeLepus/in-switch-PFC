@@ -27,8 +27,8 @@ namespace ns3{
         int VOQ_OFF = 10;   //PAUSE threshold of VOQ 
         int VIQ_ON = 5;     //RESUME threshold of VIQ
         int VIQ_OFF = 10;   //PAUSE threshold of VOQ 
-        // bool VOQ_tag = false;   //if VOQ send PAUSE to upstream then VOQ_tag = true
-        // bool VIQ_tag = false;   //if VIQ send PAUSE to VOQ then VIQ_tag = true 
+        // bool* VOQ_flag = NULL;   //if VOQ send PAUSE to upstream then VOQ_flag = true
+        // bool* VIQ_flag = NULL;   //if VIQ send PAUSE to VOQ then VIQ_flag = true 
         
         // int remainingQ = SPEEDUP_FACTOR; // TODO:check if need speedup factor   
         int previous_idx = 0; 
@@ -45,8 +45,8 @@ namespace ns3{
         QueueDiscItem* voqDequeue(int src, int dst);
         QueueDiscItem* viqDequeue(int src, int dst); 
 
-        void checkVoqTag(int src, int dst);
-        void checkViqTag(int src, int dst);
+        void checkVoqFlag(int src, int dst);
+        void checkViqFlag(int src, int dst);
 
         void InSwitchTransmission(int src, int dst);
         void RoundRobin();
@@ -69,10 +69,10 @@ namespace ns3{
         // bool ifHigherthanVoqOff(int size);
         // bool ifLowerthanViqOn(int size);
         // bool ifHigherthanViqOff(int size);
-        bool getVoqTag(int src, int dst);
-        void setVoqTag(int src, int dst, bool tag);
-        bool getViqTag(int src, int dst);
-        void setViqTag(int src, int dst, bool tag);
+        bool getVoqFlag(int src, int dst);
+        void setVoqFlag(int src, int dst, bool flag);
+        bool getViqFlag(int src, int dst);
+        void setViqFlag(int src, int dst, bool flag);
 
         // void setPreviousIndex(int idx);
         // int getPreviousIndex();
