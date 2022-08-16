@@ -4,11 +4,13 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <unistd.h>     //only used in linux
 #include "ns3/ipv6-header.h"
 #include "ns3/queue.h"
 #include "ns3/queue-disc.h"
 #include "ns3/netanim-module.h"
 #include "ns3/stats-module.h"
+
 
 using namespace std;
 
@@ -20,18 +22,23 @@ namespace ns3{
         static const int PER_PAIR = 2;  //number of queue groups per queue pair
         static const int DEFAULT_FIFO_N_SIZE = 20;
         static const int SPEEDUP_FACTOR = 1;
+        static const int INSWITCH_INTERVAL = 0;   //time unit is microsecond (10^(-6) seconds)
 
         int pair;   //number of queue pairs
         int nport;  //number of ports
         int currentRound;  // current Round
         int currentPort;    //current port to dequeue
         int* currentVQueue = NULL;   //current virtual queue to dequeue in each port
-        bool* port_flag = NULL;
+        bool* port_flag = NULL;     //flag to show whether this port paused by downstream.
+        int* currDst = NULL;    //for in-switch round robin
 
         QueueCreate virtualQueues;
 
         int getPktPort(Ptr(QueueDiscItem) item);
         void removePktLabel(Ptr(QueueDisvItem) item);
+
+        void roundInit(int*, int);  //Initialize current virtual queue in each port
+        void flagInit(bool*, int);  //If falg==true, this port has been paused by downstream.
         
     public:
         /**
@@ -48,9 +55,6 @@ namespace ns3{
         explicit VXQ(int);
         virtual ~VXQ();
 
-        void roundInit(int*, int);  //Initialize current virtual queue in each port
-        void flagInit(bool*, int);
-
         bool DoEnqueue(Ptr<QueueDiscItem> item);
         Ptr<QueueDiscItem> DoDequeue(void);
 
@@ -66,8 +70,11 @@ namespace ns3{
 	    // int cal_index(int, int); // calculate the index according to the pkt's departureRound and the level
 
         bool getPortFlag(int);
-        void setPortFlag(int);
+        void setPortFlag(int,bool);
 
-        void RoundRobin();
+        void InSwitchRoundRobin();
+        bool arePortsEqual(int,int);
+        int skipEqualDstPort(int,int);
+        int portAddOne(int);
     }
 }

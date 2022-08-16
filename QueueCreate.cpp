@@ -150,7 +150,7 @@ namespace ns3{
                 /* No Action */
             }
             else if (npkt >= VIQ_OFF){      //When the num of pkts is larger than the high threshold
-                setVoqFlag(src,dst,true);    //Set flag to true and send PAUSE to upstream
+                setViqFlag(src,dst,true);    //Set flag to true and send PAUSE to upstream
             }
         }
         else if (iflag == true){
@@ -161,57 +161,58 @@ namespace ns3{
                 setViqFlag(src,dst,false);   //Set flag to false and send RESUME to upstream
             }
         }
-
-        void QueueCreate::InSwitchTransmisson(int src, int dst){
-            checkViqFlag(src,dst);
-
-            if ((src!=dst) && VIQ_flag[dst][src]!=true){
-                QueueDiscItem* item = voqDequeue(src,dst);
-                QueueDiscItem* item2 = viqEnqueue(item,src,dst);
-            }
-            else if(VIQ_flag[dst][src] == true){
-                cout<<"VOQ["<<src<<","<<dst<<"] has been paused, cannot send out packets now."<<endl;   //for debug
-            }
-            else if(src == dst){
-                cout<<"Output port cannot be the same as input port."   //for debug
-            }  
-        }
-
-        void QueueCreate::RoundRobin(){
-            /* TODO: Round Robin */
-        }
-
-        int QueueCreate::getFifoNPackets(int i, int port, int queue){
-            return fifos[i][port][queue]->GetNPackets();
-        }
-
-        bool QueueCreate::isSelectedFifoEmpty(int i, int port, int queue){
-            return fifos[i][port][queue]->IsEmpty();
-        }
-
-        bool QueueCreate::isSelectedPortEmpty(int pair, int port){
-            for (int i=0; i<this->nport; i++){
-                if(!isSelectedFifoEmpty(pair,port,i)){
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        bool QueueCreate::getVoqFlag(int src, int dst){
-            return VOQ_flag[src][dst];
-        }
-
-        void QueueCreate::setVoqFlag(int src, int dst, bool flag){
-            VOQ_flag[src][dst] = flag;
-        }
-
-        bool QueueCreate::getViqFlag(int src, int dst){
-            return VIQ_flag[dst][src];
-        }
-
-        void QueueCreate::setViqFlag(int src, int dst, bool flag){
-            VIQ_flag[dst][src] = flag;
-        }
     }
+
+    void QueueCreate::InSwitchTransmisson(int src, int dst){
+        checkViqFlag(src,dst);
+
+        if ((src!=dst) && VIQ_flag[dst][src]!=true){
+            QueueDiscItem* item = voqDequeue(src,dst);
+            QueueDiscItem* item2 = viqEnqueue(item,src,dst);
+        }
+        else if(VIQ_flag[dst][src] == true){
+            cout<<"VOQ["<<src<<","<<dst<<"] has been paused, cannot send out packets now."<<endl;   //for debug
+        }
+        else if(src == dst){
+            cout<<"Output port cannot be the same as input port."   //for debug
+        }  
+    }
+
+    void QueueCreate::RoundRobin(){
+         /* TODO: Round Robin */
+    }
+
+    int QueueCreate::getFifoNPackets(int i, int port, int queue){
+        return fifos[i][port][queue]->GetNPackets();
+    }
+
+    bool QueueCreate::isSelectedFifoEmpty(int i, int port, int queue){
+        return fifos[i][port][queue]->IsEmpty();
+    }
+
+    bool QueueCreate::isSelectedPortEmpty(int pair, int port){
+        for (int i=0; i<this->nport; i++){
+            if(!isSelectedFifoEmpty(pair,port,i)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool QueueCreate::getVoqFlag(int src, int dst){
+        return VOQ_flag[src][dst];
+    }
+
+    void QueueCreate::setVoqFlag(int src, int dst, bool flag){
+        VOQ_flag[src][dst] = flag;
+    }
+
+    bool QueueCreate::getViqFlag(int src, int dst){
+        return VIQ_flag[dst][src];
+    }
+
+    void QueueCreate::setViqFlag(int src, int dst, bool flag){
+        VIQ_flag[dst][src] = flag;
+    }
+    
 }
