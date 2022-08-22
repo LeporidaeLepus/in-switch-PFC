@@ -26,21 +26,43 @@ main (int argc, char *argv[]){
  
     NodeContainer nodes;
     nodes.Create (3);
+
+    std::vector<NodeContainer> nodeAdjacencyList(2);
+    nodeAdjacencyList[0]=NodeContainer(nodes.Get(0), nodes.Get(1));
+    nodeAdjacencyList[1]=NodeContainer(nodes.Get(2), nodes.Get(1));
+    
+    // PointToPointHelper pointToPoint;
+    std::vector<PointToPointHelper> pointToPoint(2);
+    // pointToPoint.SetDeviceAttribute ("DataRate", StringValue ("5Mbps"));
+    // pointToPoint.SetChannelAttribute ("Delay", StringValue ("2ms"));
+    for (int i = 0; i < 2; i++){      
+        pointToPoint[i].SetDeviceAttribute ("DataRate", StringValue ("5Mbps"));
+        pointToPoint[i].SetChannelAttribute ("Delay", StringValue ("2ms"));
+    } 
  
-    PointToPointHelper pointToPoint;
-    pointToPoint.SetDeviceAttribute ("DataRate", StringValue ("5Mbps"));
-    pointToPoint.SetChannelAttribute ("Delay", StringValue ("2ms"));
- 
-    NetDeviceContainer devices;
-    devices = pointToPoint.Install (nodes);
+    // NetDeviceContainer devices;
+    // devices = pointToPoint.Install (nodes);
+    std::vector<NetDeviceContainer> devices(2);
+    for (int i = 0; i < 2 i ++){
+        devices[i] = pointToPoint[i].Install(nodeAdjacencyList[i]);
+    }
  
     InternetStackHelper stack;
     stack.Install (nodes);
  
     Ipv4AddressHelper address;
-    address.SetBase ("10.1.1.0", "255.255.255.0");
+    // address.SetBase ("10.1.1.0", "255.255.255.0");
  
-    Ipv4InterfaceContainer interfaces = address.Assign (devices);
+    // Ipv4InterfaceContainer interfaces = address.Assign (devices);
+    std::vector<Ipv4InterfaceContainer> interfaces(2);
+    for (uint32_t i = 0; i < 2; i++)  
+    {  
+        std::ostringstream subset;  
+        subset << "10.1." << i + 1 << ".0"; 
+        // n0: 10.1.1.1    n1 NIC1: 10.1.1.2   n1 NIC2: 10.1.2.1   n2 NIC1: 10.1.2.2  ...
+        address.SetBase(subset.str().c_str (), "255.255.255.0"); // sebnet & mask  
+        interfaces[i] = address.Assign(devices[i]); // set ip addresses to NICs: 10.1.1.1, 10.1.1.2 ...  
+    }  
 
     UdpEchoServerHelper echoServer (9);
 
@@ -48,7 +70,7 @@ main (int argc, char *argv[]){
     serverApps.Start (Seconds (1.0));
     serverApps.Stop (Seconds (10.0));
 
-    UdpEchoClientHelper echoClient (interfaces.GetAddress (1), 9);
+    UdpEchoClientHelper echoClient (interfaces[1].GetAddress (1), 9);
     echoClient.SetAttribute ("MaxPackets", UintegerValue (1));
     echoClient.SetAttribute ("Interval", TimeValue (Seconds (1.0)));
     echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
