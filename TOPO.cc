@@ -4,6 +4,9 @@
 #include "ns3/internet-module.h"
 #include "ns3/point-to-point-module.h"
 #include "ns3/applications-module.h"
+#include "ns3/traffic-control-module.h"
+#include "ns3/VirtualQueue.h"
+#include "ns3/QueueCreate.h"
 
 // Default Network Topology
 //
@@ -18,7 +21,7 @@ NS_LOG_COMPONENT_DEFINE ("FirstScriptExample");
  
 int
 main (int argc, char *argv[]){
-    CommandLine cmd (__FILE__);
+    CommandLine cmd;
     cmd.Parse (argc, argv);
   
     Time::SetResolution (Time::NS);
@@ -44,7 +47,7 @@ main (int argc, char *argv[]){
     // NetDeviceContainer devices;
     // devices = pointToPoint.Install (nodes);
     std::vector<NetDeviceContainer> devices(2);
-    for (int i = 0; i < 2 i ++){
+    for (int i = 0; i < 2; i ++){
         devices[i] = pointToPoint[i].Install(nodeAdjacencyList[i]);
     }
  
@@ -64,6 +67,14 @@ main (int argc, char *argv[]){
         address.SetBase(subset.str().c_str (), "255.255.255.0"); // sebnet & mask  
         interfaces[i] = address.Assign(devices[i]); // set ip addresses to NICs: 10.1.1.1, 10.1.1.2 ...  
     }  
+
+    TrafficControlHelper tch;
+    for (int i = 0; i < 2; i++){
+        tch.Uninstall(devices[i]);
+    }
+
+    tch.SetRootQueueDisc ("ns3::VirtualQueue");
+    tch.Install(devices[0].Get(1));
 
     UdpEchoServerHelper echoServer (9);
 
