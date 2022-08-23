@@ -84,7 +84,7 @@ main (int argc, char *argv[]){
 
     UdpEchoClientHelper echoClient (interfaces[0].GetAddress (1), 9);
     echoClient.SetAttribute ("MaxPackets", UintegerValue (5));
-    echoClient.SetAttribute ("Interval", TimeValue (Seconds (1.0)));
+    echoClient.SetAttribute ("Interval", TimeValue (Seconds (0.1)));
     echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
 
     ApplicationContainer clientApps = echoClient.Install (nodes.Get (0));
