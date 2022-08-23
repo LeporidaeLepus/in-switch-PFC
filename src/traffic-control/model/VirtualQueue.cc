@@ -140,8 +140,10 @@ namespace ns3 {
     }
 
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
+        cout<<"Dequeue: in-switch transmission."<<endl;
         InSwitchRoundRobin();
 
+        cout<<"Dequeue"<<endl;
         int count = 0;
         bool flag = getPortFlag(this->currentPort);
         while((flag == true) || vqueues->isSelectedPortEmpty(1,currentPort)){ 
@@ -209,6 +211,7 @@ namespace ns3 {
                     continue;
                 }  
 
+                cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;
                 vqueues->InSwitchTransmission(src,dst);
 
                 currDst[src] = portAddOne(dst);
@@ -218,7 +221,10 @@ namespace ns3 {
     }
 
     bool VXQ::arePortsEqual(int src, int dst){
-        if(src==dst) return true;
+        if(src==dst){
+            cout<<"src: "<<src<<"= dst: "<<dst<<endl;
+            return true;
+        } 
 
         return false;
     }
