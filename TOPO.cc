@@ -5,8 +5,8 @@
 #include "ns3/point-to-point-module.h"
 #include "ns3/applications-module.h"
 #include "ns3/traffic-control-module.h"
-#include "ns3/VirtualQueue.h"
-#include "ns3/QueueCreate.h"
+// #include "ns3/VirtualQueue.h"
+// #include "ns3/QueueCreate.h"
 
 // Default Network Topology
 //

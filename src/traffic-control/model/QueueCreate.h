@@ -17,18 +17,18 @@ namespace ns3{
         static const int DEFAULT_FIFO_N_SIZE = 20;
         static const int SPEEDUP_FACTOR = 1;
 
-        int pair;   //number of queue pairs
+        int pair = DEFAULT_PAIR;   //number of queue pairs
         int currentIndex;   //current serve index
 
         // Queue* fifos[PER_PAIR][pair][pair];
 
-        unit32_t m_limit;   //!< Maximum number of packets that can be stored 
+        uint32_t m_limit;   //!< Maximum number of packets that can be stored 
         int VOQ_ON = 5;     //RESUME threshold of VOQ
         int VOQ_OFF = 10;   //PAUSE threshold of VOQ 
         int VIQ_ON = 5;     //RESUME threshold of VIQ
         int VIQ_OFF = 10;   //PAUSE threshold of VOQ 
-        // bool* VOQ_flag = NULL;   //if VOQ send PAUSE to upstream then VOQ_flag = true
-        // bool* VIQ_flag = NULL;   //if VIQ send PAUSE to VOQ then VIQ_flag = true 
+        bool** VOQ_flag = NULL;   //if VOQ send PAUSE to upstream then VOQ_flag = true
+        bool** VIQ_flag = NULL;   //if VIQ send PAUSE to VOQ then VIQ_flag = true 
         
         // int remainingQ = SPEEDUP_FACTOR; // TODO:check if need speedup factor   
         int previous_idx = 0; 
@@ -37,7 +37,7 @@ namespace ns3{
         static TypeId GetTypeId(void);
 
         QueueCreate();
-        QueueCreate(int nport, int index);
+        QueueCreate(int nport);
         ~QueueCreate();
 
         QueueDiscItem* voqEnqueue(QueueDiscItem* item, int src, int dst); 
@@ -80,7 +80,7 @@ namespace ns3{
         // int getPreviousIndex();
         
 
-    }
+    };
 }
 
 

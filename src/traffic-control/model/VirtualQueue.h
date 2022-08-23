@@ -32,10 +32,10 @@ namespace ns3{
         bool* port_flag = NULL;     //flag to show whether this port paused by downstream.
         int* currDst = NULL;    //for in-switch round robin
 
-        QueueCreate virtualQueues;
+        QueueCreate vqueues;
 
-        int getPktPort(Ptr(QueueDiscItem) item);
-        void removePktLabel(Ptr(QueueDisvItem) item);
+        int getPktPort(Ptr<QueueDiscItem> item);
+        void removePktLabel(Ptr<QueueDiscItem> item);
 
         void roundInit(int*, int);  //Initialize current virtual queue in each port
         void flagInit(bool*, int);  //If falg==true, this port has been paused by downstream.
@@ -76,5 +76,5 @@ namespace ns3{
         bool arePortsEqual(int,int);
         int skipEqualDstPort(int,int);
         int portAddOne(int);
-    }
+    };
 }

@@ -182,7 +182,7 @@ namespace ns3 {
 
                 dst=skipEqualDstPort(src,dst);
                 checkViqFalg(src,dst);
-                while(getViqFlag(src,dst)==true && count<(this->nport-1)){
+                while(vqueues.getViqFlag(src,dst)==true && count<(this->nport-1)){
                     dst = portAddOne(dst);
                     dst = skipEqualDstPort(src,dst);
                     count++;
@@ -193,7 +193,7 @@ namespace ns3 {
                     continue;
                 }  
 
-                vqueues.InSwitchTransmisson(src,dst);
+                vqueues.InSwitchTransmission(src,dst);
 
                 currDst[src] = portAddOne(dst);
             }

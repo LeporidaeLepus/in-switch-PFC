@@ -9,10 +9,11 @@
 #include "ns3/queue-disc.h"
 // #include "ns3/Replace_string.h"
 #include "ns3/simulator.h"
+#include "ns3/QueueCreate.h"
 
 namespace ns3{
-    NS_LOG_COMPONENT_DEFINE("CreateQueue");
-    NS_OBJECT_ENSURE_REGISTERED(CreateQueue);
+    NS_LOG_COMPONENT_DEFINE("QueueCreate");
+    NS_OBJECT_ENSURE_REGISTERED(QueueCreate);
 
     TypeId QueueCreate::GetTypeId(void)
     {
@@ -29,21 +30,21 @@ namespace ns3{
         return tid;
     }
 
-    QueueCreate::QueueCreate():QueueCreate(DEFAULT_PAIR,0){
+    QueueCreate::QueueCreate():QueueCreate(DEFAULT_PAIR){
 
     }
 
-    QueueCreate::QueueCreate(int nport, int index){
+    QueueCreate::QueueCreate(int nport){
         NS_LOG_FUNCTION(this);
         this->pair = nport;
-        this->currentIndex = index;
+        // this->currentIndex = index;
 
         //create queue
         Queue* fifos[PER_PAIR][pair][pair];
 
         //create VXQ flag
-        bool VOQ_flag[pair][pair];
-        bool VIQ_flag[pair][pair];
+        VOQ_flag = new bool*[nport]();
+        VIQ_flag = new bool*[nport]();
 
         cout<<"VOQ_OFF: "<<VOQ_OFF<<" VOQ_ON: "<<VOQ_ON<<endl;
         cout<<"VIQ_OFF: "<<VIQ_OFF<<" VIQ_ON: "<<VIQ_ON<<endl;
@@ -63,21 +64,25 @@ namespace ns3{
                 }
             }
         }
-        cout<<"Initiate "<<PER_PAIR<<"*"<<pair<<"*"<<pair<<" queues."<<endl
+        cout<<"Initiate "<<PER_PAIR<<"*"<<pair<<"*"<<pair<<" queues."<<endl;
 
         //Initiate VXQ flag to false
         for(int i = 0; i < (pair); i++){
+            VOQ_flag[i] = new bool[nport]();
+            VIQ_flag[i] = new bool[nport]();
             for(int j = 0; j < (pair); j++){
                 VOQ_flag[i][j] = false;   //if VOQ send PAUSE to upstream then VOQ_flag = true
                 VIQ_flag[i][j] = false;   //if VIQ send PAUSE to VOQ then VIQ_flag = true
             }
         }
-        cout<<"Initiate VOQ_flag and VIQ_flag."<<endl
+        cout<<"Initiate VOQ_flag and VIQ_flag."<<endl;
     }  
 
     QueueCreate::~QueueCreate(){
         NS_LOG_FUNCTION(this);
     }
+
+    bool[]
 
     /* TODO: get src port and dst port */
     QueueDiscItem* QueueCreate::voqEnqueue(QueueDiscItem* item, int src, int dst){
@@ -163,7 +168,7 @@ namespace ns3{
         }
     }
 
-    void QueueCreate::InSwitchTransmisson(int src, int dst){
+    void QueueCreate::InSwitchTransmission(int src, int dst){
         checkViqFlag(src,dst);
 
         if ((src!=dst) && VIQ_flag[dst][src]!=true){
@@ -191,7 +196,7 @@ namespace ns3{
     }
 
     bool QueueCreate::isSelectedPortEmpty(int pair, int port){
-        for (int i=0; i<this->nport; i++){
+        for (int i=0; i<this->pair; i++){
             if(!isSelectedFifoEmpty(pair,port,i)){
                 return false;
             }
