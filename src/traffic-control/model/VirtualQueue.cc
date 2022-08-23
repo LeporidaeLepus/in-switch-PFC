@@ -72,7 +72,7 @@ namespace ns3 {
         }
     }
 
-    int[] VXQ::getPktPort(Ptr<QueueDiscItem> item){
+    int* VXQ::getPktPort(Ptr<QueueDiscItem> item){
 
         //TODO: add function to get ports
 
@@ -80,7 +80,7 @@ namespace ns3 {
         int srcPort = 0;
         int dstPort = 1;
 
-        int[] port[2] = {srcPort, dstPort}
+        int* port[2] = {srcPort, dstPort}
         
         return port;
     }
