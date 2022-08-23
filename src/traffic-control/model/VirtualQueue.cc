@@ -77,17 +77,17 @@ namespace ns3 {
         //TODO: add function to get ports
 
         //for debug
-        srcPrt = 0;
-        dstPort = 1;
+        int srcPrt = 0;
+        int dstPort = 1;
         
         return srcPort, dstPort;
     }
 
-    void VXQ::removePktLabel(Ptr(QueueDisvItem) item){
+    void VXQ::removePktLabel(Ptr<QueueDiscItem> item){
         //TODO: remove the label used in this switch
     }
 
-    bool VXQ::DoEnqueue(Ptr<queueDiscItem> item){
+    bool VXQ::DoEnqueue(Ptr<QueueDiscItem> item){
         NS_LOG_FUNCTION(this);
 
         int srcPort, dstPort = getPktPort(item);
@@ -130,7 +130,7 @@ namespace ns3 {
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
         int count = 0;
         bool flag = getPortFlag(this->currentPort);
-        while((flag == true) || vqueues.isSelectedPortEmpty(1,currentPort)){ 
+        while((flag == true) || vqueues->isSelectedPortEmpty(1,currentPort)){ 
             count++;
             //If all ports are paused or empty, return 0
             if(count == this->nport){   
@@ -138,18 +138,18 @@ namespace ns3 {
                 return 0;
             }
 
-            this->curentPort = (this->currentPort+1)/this->nport;
+            this->currentPort = (this->currentPort+1)/this->nport;
             flag = getPortFlag(this->currentPort);
         }
 
         int crp = this->currentPort;
         int crvq = this->currentVQueue[crp];
 
-        while((crvq == crp) || vqueues.isSelectedFifoEmpty(int 1, int crp, int crvq)){
+        while((crvq == crp) || vqueues->isSelectedFifoEmpty(1,crp,crvq)){
             crvq = (crvq+1)/this->nport;
         }
 
-        QueueDiscItem* re = vqueues.viqDequeue(crvq, crp);
+        QueueDiscItem* re = vqueues->viqDequeue(crvq, crp);
 
         crvq = (crvq+1)/this->nport;
         this->currentVQueue[crp] = crvq;
@@ -162,7 +162,7 @@ namespace ns3 {
     }
 
     bool VXQ::getPortFlag(int nPort){
-        if(nPort>=this.nport || nPort<=){
+        if(nPort>=this->nport || nPort<0){
             cout<<"Wrong port number"<<endl;
             return true;    //when flag==true, the port is paused and will be skipped.
         }
@@ -170,7 +170,7 @@ namespace ns3 {
     }
 
     void VXQ::setPortFlag(int nPort, bool flag){
-        if(nPort>=this.nport || nPort<=){
+        if(nPort>=this->nport || nPort<0){
             cout<<"Wrong port number"<<endl;
             return;
         }
@@ -185,8 +185,8 @@ namespace ns3 {
                 int dst = currDst[src];
 
                 dst=skipEqualDstPort(src,dst);
-                checkViqFalg(src,dst);
-                while(vqueues.getViqFlag(src,dst)==true && count<(this->nport-1)){
+                vqueues.checkViqFalg(src,dst);
+                while(vqueues->getViqFlag(src,dst)==true && count<(this->nport-1)){
                     dst = portAddOne(dst);
                     dst = skipEqualDstPort(src,dst);
                     count++;
@@ -197,7 +197,7 @@ namespace ns3 {
                     continue;
                 }  
 
-                vqueues.InSwitchTransmission(src,dst);
+                vqueues->InSwitchTransmission(src,dst);
 
                 currDst[src] = portAddOne(dst);
             }
