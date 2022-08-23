@@ -202,14 +202,14 @@ namespace ns3 {
 
                 dst=skipEqualDstPort(src,dst);
                 vqueues->checkViqFlag(src,dst);
-                while(vqueues->getViqFlag(src,dst)==true && count<(this->nport-1)){
+                while((vqueues->getViqFlag(src,dst)==true || vqueues->isSelectedFifoEmpty(0,src,dst)) && count<(this->nport-1)){
                     dst = portAddOne(dst);
                     dst = skipEqualDstPort(src,dst);
                     count++;
                 }
                 if(count==this->nport-1){
                     currDst[src] = portAddOne(dst);
-                    cout<<"SrcPort "<<src<<" is paused."<<endl;
+                    cout<<"SrcPort "<<src<<" is paused or empty."<<endl;
                     continue;
                 }  
 
