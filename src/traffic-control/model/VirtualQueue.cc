@@ -72,17 +72,24 @@ namespace ns3 {
         }
     }
 
-    int* VXQ::getPktPort(Ptr<QueueDiscItem> item){
+    int VXQ::getSrcPort(Ptr<QueueDiscItem> item){
 
         //TODO: add function to get ports
 
         //for debug
         int srcPort = 0;
-        int dstPort = 1;
+    
+        return srcPort;
+    }
 
-        int* port[2] = {srcPort, dstPort}
+    int VXQ::getDstPort(Ptr<QueueDiscItem> item){
+
+        //TODO: add function to get ports
+
+        //for debug
+        int dstPort = 1;
         
-        return port;
+        return dstPort;
     }
 
     void VXQ::removePktLabel(Ptr<QueueDiscItem> item){
@@ -92,8 +99,8 @@ namespace ns3 {
     bool VXQ::DoEnqueue(Ptr<QueueDiscItem> item){
         NS_LOG_FUNCTION(this);
 
-        int srcPort = getPktPort(item)[0];
-        int dstPort = getPktPort(item)[1];
+        int srcPort = getSrcPort(item);
+        int dstPort = getDstPort(item);
         if(srcPort == dstPort){
             cout<<"Input port cannot be the same as Output port."<<endl;
             Drop(item);

@@ -34,7 +34,8 @@ namespace ns3{
 
         QueueCreate* vqueues;
 
-        int* getPktPort(Ptr<QueueDiscItem> item);
+        int getSrcPort(Ptr<QueueDiscItem> item);
+        int getDstPort(Ptr<QueueDiscItem> item);
         void removePktLabel(Ptr<QueueDiscItem> item);
 
         void roundInit(int*, int);  //Initialize current virtual queue in each port
