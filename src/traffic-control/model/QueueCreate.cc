@@ -171,7 +171,7 @@ namespace ns3{
 
         if ((src!=dst) && VIQ_flag[dst][src]!=true){
             QueueDiscItem* item = voqDequeue(src,dst);
-            
+
             // QueueDiscItem* item2 = viqEnqueue(item,src,dst);
             viqEnqueue(item,src,dst);
         }
@@ -201,6 +201,8 @@ namespace ns3{
                 return false;
             }
         }
+
+        cout<<"port("<<pair<<"'"<<port<<") is empty."
         return true;
     }
 

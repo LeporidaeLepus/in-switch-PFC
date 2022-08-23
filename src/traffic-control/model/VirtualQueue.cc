@@ -151,7 +151,7 @@ namespace ns3 {
             //If all ports are paused or empty, return 0
             if(count == this->nport){   
                 cout<<"No available port."<<endl;
-                return 0;
+                return NULL;
             }
 
             this->currentPort = (this->currentPort+1)/this->nport;
