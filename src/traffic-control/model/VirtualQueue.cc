@@ -72,15 +72,17 @@ namespace ns3 {
         }
     }
 
-    int VXQ::getPktPort(Ptr<QueueDiscItem> item){
+    int[] VXQ::getPktPort(Ptr<QueueDiscItem> item){
 
         //TODO: add function to get ports
 
         //for debug
-        int srcPrt = 0;
+        int srcPort = 0;
         int dstPort = 1;
+
+        int[] port[2] = {srcPort, dstPort}
         
-        return srcPort, dstPort;
+        return port;
     }
 
     void VXQ::removePktLabel(Ptr<QueueDiscItem> item){
@@ -90,7 +92,8 @@ namespace ns3 {
     bool VXQ::DoEnqueue(Ptr<QueueDiscItem> item){
         NS_LOG_FUNCTION(this);
 
-        int srcPort, dstPort = getPktPort(item);
+        int srcPort = getPktPort(item)[0];
+        int dstPort = getPktPort(item)[1];
         if(srcPort == dstPort){
             cout<<"Input port cannot be the same as Output port."<<endl;
             Drop(item);
@@ -98,8 +101,8 @@ namespace ns3 {
             return false;
         }
 
-        vqueues.checkVoqFlag(srcPort, dstPort);
-        bool flag = vqueues.getVoqFlag(srcPort, dstPort);
+        vqueues->checkVoqFlag(srcPort, dstPort);
+        bool flag = vqueues->getVoqFlag(srcPort, dstPort);
         if(flag == true){
             cout<<"This stream ("<<srcPort<<","<<dstPort<<") has been paused."<<endl;
             Drop(item);
@@ -107,7 +110,7 @@ namespace ns3 {
             return false;
         }
 
-        QueueDiscItem* re = vqueues.voqEnqueue(item, srcPort, dstPort);
+        QueueDiscItem* re = vqueues->voqEnqueue(item, srcPort, dstPort);
 
         if(re!=0){
             // TODO: add schedule
@@ -185,7 +188,7 @@ namespace ns3 {
                 int dst = currDst[src];
 
                 dst=skipEqualDstPort(src,dst);
-                vqueues.checkViqFalg(src,dst);
+                vqueues->checkViqFlag(src,dst);
                 while(vqueues->getViqFlag(src,dst)==true && count<(this->nport-1)){
                     dst = portAddOne(dst);
                     dst = skipEqualDstPort(src,dst);
