@@ -124,8 +124,6 @@ namespace ns3 {
         Ptr<QueueDiscItem> re = vqueues->voqEnqueue(item, srcPort, dstPort);
 
         if(re!=0){
-            // TODO: add schedule
-
             cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;
             
             return true;
@@ -142,6 +140,8 @@ namespace ns3 {
     }
 
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
+        InSwitchRoundRobin();
+
         int count = 0;
         bool flag = getPortFlag(this->currentPort);
         while((flag == true) || vqueues->isSelectedPortEmpty(1,currentPort)){ 
@@ -170,8 +170,6 @@ namespace ns3 {
         crp = (crp+1)/this->nport;
         this->currentPort = crp;
 
-        InSwitchRoundRobin();
-
         return re;
     }
 
@@ -193,7 +191,7 @@ namespace ns3 {
     }
 
     void VXQ::InSwitchRoundRobin(){
-        while(true){
+        //while(true){
             for(int src=0; src<this->nport; src++){
                 int count = 0;
                 int dst = currDst[src];
@@ -214,8 +212,8 @@ namespace ns3 {
                 vqueues->InSwitchTransmission(src,dst);
 
                 currDst[src] = portAddOne(dst);
-            }
-            usleep(INSWITCH_INTERVAL);
+            //}
+            // usleep(INSWITCH_INTERVAL);
         }
     }
 
