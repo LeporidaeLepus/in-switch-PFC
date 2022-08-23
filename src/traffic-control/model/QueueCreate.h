@@ -29,6 +29,7 @@ namespace ns3{
         int VIQ_OFF = 10;   //PAUSE threshold of VOQ 
         bool** VOQ_flag = NULL;   //if VOQ send PAUSE to upstream then VOQ_flag = true
         bool** VIQ_flag = NULL;   //if VIQ send PAUSE to VOQ then VIQ_flag = true 
+        Queue* fifos[PER_PAIR][DEFAULT_PAIR][DEFAULT_PAIR];
         
         // int remainingQ = SPEEDUP_FACTOR; // TODO:check if need speedup factor   
         int previous_idx = 0; 

@@ -122,6 +122,8 @@ namespace ns3 {
             return false;
         }
         
+        InSwitchRoundRobin();
+
         return true;
     }
 
@@ -153,6 +155,8 @@ namespace ns3 {
         this->currentVQueue[crp] = crvq;
         crp = (crp+1)/this->nport;
         this->currentPort = crp;
+
+        InSwitchRoundRobin();
 
         return re;
     }

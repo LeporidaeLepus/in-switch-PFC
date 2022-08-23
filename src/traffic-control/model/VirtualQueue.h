@@ -32,7 +32,7 @@ namespace ns3{
         bool* port_flag = NULL;     //flag to show whether this port paused by downstream.
         int* currDst = NULL;    //for in-switch round robin
 
-        QueueCreate vqueues;
+        QueueCreate* vqueues;
 
         int getPktPort(Ptr<QueueDiscItem> item);
         void removePktLabel(Ptr<QueueDiscItem> item);

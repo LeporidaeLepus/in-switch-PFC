@@ -40,7 +40,7 @@ namespace ns3{
         // this->currentIndex = index;
 
         //create queue
-        Queue* fifos[PER_PAIR][pair][pair];
+        // Queue* fifos[PER_PAIR][pair][pair];
 
         //create VXQ flag
         VOQ_flag = new bool*[nport]();
@@ -81,8 +81,6 @@ namespace ns3{
     QueueCreate::~QueueCreate(){
         NS_LOG_FUNCTION(this);
     }
-
-    bool[]
 
     /* TODO: get src port and dst port */
     QueueDiscItem* QueueCreate::voqEnqueue(QueueDiscItem* item, int src, int dst){
@@ -173,13 +171,14 @@ namespace ns3{
 
         if ((src!=dst) && VIQ_flag[dst][src]!=true){
             QueueDiscItem* item = voqDequeue(src,dst);
-            QueueDiscItem* item2 = viqEnqueue(item,src,dst);
+            // QueueDiscItem* item2 = viqEnqueue(item,src,dst);
+            viqEnqueue(item,src,dst);
         }
         else if(VIQ_flag[dst][src] == true){
             cout<<"VOQ["<<src<<","<<dst<<"] has been paused, cannot send out packets now."<<endl;   //for debug
         }
         else if(src == dst){
-            cout<<"Output port cannot be the same as input port."   //for debug
+            cout<<"Output port cannot be the same as input port." <<endl;  //for debug
         }  
     }
 
