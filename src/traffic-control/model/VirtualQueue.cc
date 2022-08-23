@@ -154,7 +154,7 @@ namespace ns3 {
                 return NULL;
             }
 
-            this->currentPort = (this->currentPort+1)/this->nport;
+            this->currentPort = (this->currentPort+1)%this->nport;
             flag = getPortFlag(this->currentPort);
         }
 
@@ -162,14 +162,14 @@ namespace ns3 {
         int crvq = this->currentVQueue[crp];
 
         while((crvq == crp) || vqueues->isSelectedFifoEmpty(1,crp,crvq)){
-            crvq = (crvq+1)/this->nport;
+            crvq = (crvq+1)%this->nport;
         }
 
         QueueDiscItem* re = vqueues->viqDequeue(crvq, crp);
 
-        crvq = (crvq+1)/this->nport;
+        crvq = (crvq+1)%this->nport;
         this->currentVQueue[crp] = crvq;
-        crp = (crp+1)/this->nport;
+        crp = (crp+1)%this->nport;
         this->currentPort = crp;
 
         return re;
