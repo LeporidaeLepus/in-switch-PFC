@@ -195,6 +195,8 @@ namespace ns3 {
     void VXQ::InSwitchRoundRobin(){
         //while(true){
             for(int src=0; src<this->nport; src++){
+                if(vqueues->isSelectedPortEmpty(0,src)) continue;
+
                 int count = 0;
                 int dst = currDst[src];
 
@@ -240,7 +242,7 @@ namespace ns3 {
 
     int VXQ::portAddOne(int port){
         cout<<"port + 1 = "<<port<<" + 1"<<endl;    //for debug
-        return (port+1)/this->nport;
+        return (port+1)%this->nport;
     }
 
 
