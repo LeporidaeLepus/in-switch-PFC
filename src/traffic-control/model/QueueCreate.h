@@ -41,8 +41,8 @@ namespace ns3{
         QueueCreate(int nport);
         ~QueueCreate();
 
-        QueueDiscItem* voqEnqueue(Ptr<QueueDiscItem> item, int src, int dst); 
-        QueueDiscItem* viqEnqueue(Ptr<QueueDiscItem> item, int src, int dst);
+        Ptr<QueueDiscItem> voqEnqueue(Ptr<QueueDiscItem> item, int src, int dst); 
+        Ptr<QueueDiscItem> viqEnqueue(Ptr<QueueDiscItem> item, int src, int dst);
         QueueDiscItem* voqDequeue(int src, int dst);
         QueueDiscItem* viqDequeue(int src, int dst); 
 

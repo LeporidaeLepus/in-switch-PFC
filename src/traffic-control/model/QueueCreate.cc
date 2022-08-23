@@ -83,7 +83,7 @@ namespace ns3{
     }
 
     /* TODO: get src port and dst port */
-    QueueDiscItem* QueueCreate::voqEnqueue(Ptr<QueueDiscItem> item, int src, int dst){
+    Ptr<QueueDiscItem> QueueCreate::voqEnqueue(Ptr<QueueDiscItem> item, int src, int dst){
         NS_LOG_FUNCTION(this);
 
         checkVoqFlag(src, dst);
@@ -95,7 +95,7 @@ namespace ns3{
         return item;
     }
 
-    QueueDiscItem* QueueCreate::viqEnqueue(Ptr<QueueDiscItem> item, int src, int dst){ //for in-swtich transmission
+    Ptr<QueueDiscItem> QueueCreate::viqEnqueue(Ptr<QueueDiscItem> item, int src, int dst){ //for in-swtich transmission
         NS_LOG_FUNCTION(this);
 
         fifos[1][dst][src]->Enqueue(item);

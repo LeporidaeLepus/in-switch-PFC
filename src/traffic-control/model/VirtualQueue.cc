@@ -117,7 +117,7 @@ namespace ns3 {
             return false;
         }
 
-        QueueDiscItem* re = vqueues->voqEnqueue(item, srcPort, dstPort);
+        Ptr<QueueDiscItem> re = vqueues->voqEnqueue(item, srcPort, dstPort);
 
         if(re!=0){
             // TODO: add schedule
