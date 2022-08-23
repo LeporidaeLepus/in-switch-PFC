@@ -73,7 +73,7 @@ main (int argc, char *argv[]){
         tch.Uninstall(devices[i]);
     }
 
-    tch.SetRootQueueDisc ("ns3::VirtualQueue");
+    tch.SetRootQueueDisc ("ns3::VXQ");
     tch.Install(devices[0].Get(1));
 
     UdpEchoServerHelper echoServer (9);

@@ -54,6 +54,10 @@ namespace ns3 {
         flagInit(port_flag, nport);
     }
 
+    VXQ::~VXQ(){
+        NS_LOG_FUNCTION(this);
+    }
+
     void VXQ::roundInit(int* Ptr, int n){
         for(int i=0; i<n; i++){
             Ptr[i] = 0;
