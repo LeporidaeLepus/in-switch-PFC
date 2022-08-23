@@ -222,7 +222,7 @@ namespace ns3 {
 
     bool VXQ::arePortsEqual(int src, int dst){
         if(src==dst){
-            cout<<"src: "<<src<<"= dst: "<<dst<<endl;
+            cout<<"src: "<<src<<" = dst: "<<dst<<endl;      //for debug
             return true;
         } 
 
@@ -230,12 +230,16 @@ namespace ns3 {
     }
 
     int VXQ::skipEqualDstPort(int src, int dst){
-        if(arePortsEqual(src,dst)) dst = portAddOne(dst);
+        if(arePortsEqual(src,dst)){
+            cout<<"equal"<<endl;        //for debug
+            dst = portAddOne(dst);
+        } 
 
         return dst;
     }
 
     int VXQ::portAddOne(int port){
+        cout<<"port + 1 = "<<port<<" + 1"<<endl;    //for debug
         return (port+1)/this->nport;
     }
 
