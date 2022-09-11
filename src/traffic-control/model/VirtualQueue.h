@@ -18,7 +18,7 @@ namespace ns3{
     class VXQ: public QueueDisc{
     
     private:
-        static const int DEFAULT_PAIR = 4;  //default number of queue pairs or ports
+        static const int DEFAULT_PAIR = 128;  //default number of queue pairs or ports
         static const int PER_PAIR = 2;  //number of queue groups per queue pair
         static const int DEFAULT_FIFO_N_SIZE = 20;
         static const int SPEEDUP_FACTOR = 1;

@@ -202,7 +202,7 @@ namespace ns3{
             }
         }
 
-        cout<<"port("<<pair<<","<<port<<") is empty."<<endl;
+        // cout<<"port("<<pair<<","<<port<<") is empty."<<endl;        //for debug
         return true;
     }
 
