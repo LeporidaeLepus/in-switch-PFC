@@ -43,8 +43,8 @@ namespace ns3{
         // Queue* fifos[PER_PAIR][pair][pair];
 
         //create VXQ flag
-        VOQ_flag = new bool*[nport]();
-        VIQ_flag = new bool*[nport]();
+        // VOQ_flag = new bool*[nport]();
+        // VIQ_flag = new bool*[nport]();
 
         cout<<"VOQ_OFF: "<<VOQ_OFF<<" VOQ_ON: "<<VOQ_ON<<endl;
         cout<<"VIQ_OFF: "<<VIQ_OFF<<" VIQ_ON: "<<VIQ_ON<<endl;
@@ -67,15 +67,15 @@ namespace ns3{
         cout<<"Initiate "<<PER_PAIR<<"*"<<pair<<"*"<<pair<<" queues."<<endl;
 
         //Initiate VXQ flag to false
-        for(int i = 0; i < (pair); i++){
-            VOQ_flag[i] = new bool[nport]();
-            VIQ_flag[i] = new bool[nport]();
-            for(int j = 0; j < (pair); j++){
-                VOQ_flag[i][j] = false;   //if VOQ send PAUSE to upstream then VOQ_flag = true
-                VIQ_flag[i][j] = false;   //if VIQ send PAUSE to VOQ then VIQ_flag = true
-            }
-        }
-        cout<<"Initiate VOQ_flag and VIQ_flag."<<endl;
+        // for(int i = 0; i < (pair); i++){
+        //     VOQ_flag[i] = new bool[nport]();
+        //     VIQ_flag[i] = new bool[nport]();
+        //     for(int j = 0; j < (pair); j++){
+        //         VOQ_flag[i][j] = false;   //if VOQ send PAUSE to upstream then VOQ_flag = true
+        //         VIQ_flag[i][j] = false;   //if VIQ send PAUSE to VOQ then VIQ_flag = true
+        //     }
+        // }
+        // cout<<"Initiate VOQ_flag and VIQ_flag."<<endl;
     }  
 
     QueueCreate::~QueueCreate(){
@@ -127,6 +127,7 @@ namespace ns3{
         bool oflag = getVoqFlag(src,dst);
 
         cout<<"# in VOQ["<<src<<", "<<dst<<"] = "<<npkt;
+        cout<<"oflag = "<<oflag<<endl;
         
         if(oflag == false){  
             if(npkt < VOQ_OFF){ 
