@@ -185,7 +185,7 @@ namespace ns3 {
         QueueDiscItem* re = vqueues->viqDequeue(crvq, crp);
         vqueues->checkViqFlag(src,dst);
         //FIXME:
-        cout<<"length of VIQ["<<crp<<","<<crvq<<"]= "<<vqueues->getFifoNPackets(1,crp,cdvq)<<endl;
+        cout<<"length of VIQ["<<crp<<","<<crvq<<"]= "<<vqueues->getFifoNPackets(1,crp,crvq)<<endl;
 
         crvq = (crvq+1)%this->nport;
         this->currentVQueue[crp] = crvq;
