@@ -125,12 +125,14 @@ namespace ns3{
     void QueueCreate::checkVoqFlag(int src, int dst){
         int npkt = getFifoNPackets(0,src,dst);
         bool oflag = getVoqFlag(src,dst);
+
+        cout<<"# in VOQ["<<src<<", "<<dst<<"] = "<<npkt;
         
         if(oflag == false){  
             if(npkt < VOQ_OFF){ 
                 /* No Action */
             }
-            else if (npkt >= VOQ_OFF){      //When the num of pkts is larger than the high threshold
+            else if (npkt >= VOQ_OFF){      //When the num of pkts in VOQ is larger than the high threshold
                 setVoqFlag(src,dst,true);    //Set flag to true and send PAUSE to upstream
             }           
         }
@@ -138,7 +140,7 @@ namespace ns3{
             if(npkt >= VOQ_ON){
                 /* No Action */
             }
-            else if(npkt < VOQ_ON){         //When the num of pkts is less than the low threshold
+            else if(npkt < VOQ_ON){         //When the num of pkts in VOQ is less than the low threshold
                 setVoqFlag(src,dst,false);   //Set flag to false and send RESUME to upstream
             }
         }
@@ -148,20 +150,22 @@ namespace ns3{
         int npkt = getFifoNPackets(1,dst,src);
         bool iflag = getViqFlag(src,dst);
 
+        cout<<"# in VIQ["<<dst<<", "<<src<<"] = "<<npkt;
+
         if(iflag == false){
             if(npkt < VIQ_OFF){
                 /* No Action */
             }
-            else if (npkt >= VIQ_OFF){      //When the num of pkts is larger than the high threshold
-                setViqFlag(src,dst,true);    //Set flag to true and send PAUSE to upstream
+            else if (npkt >= VIQ_OFF){      //When the num of pkts in VIQ is larger than the high threshold
+                setViqFlag(src,dst,true);    //Set flag to true and send PAUSE to VOQ
             }
         }
         else if (iflag == true){
             if(npkt >= VOQ_ON){
                 /* No Action */
             }
-            else if(npkt < VOQ_ON){         //When the num of pkts is less than the low threshold
-                setViqFlag(src,dst,false);   //Set flag to false and send RESUME to upstream
+            else if(npkt < VOQ_ON){         //When the num of pkts in VIQ is less than the low threshold
+                setViqFlag(src,dst,false);   //Set flag to false and send RESUME to VOQ
             }
         }
     }

@@ -140,8 +140,8 @@ namespace ns3 {
     }
 
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
-        cout<<"Dequeue: 5 in-switch transmission."<<endl;
-        for(int i=0; i<5; i++){
+        cout<<"Dequeue: in-switch transmission."<<endl;
+        for(int i=0; i < SPEEDUP_FACTOR; i++){
             InSwitchRoundRobin();
         }
 
