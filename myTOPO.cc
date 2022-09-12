@@ -59,7 +59,7 @@ uint32_t total_send = 0;
 
 //traffic generation command:
 //python traffic_gen.py -c WebSearch_distribution.txt -n 128 -l 0.3 -b 1G -t 0.1
-const char* DATARATE = "1Gbps"; //Bandwidth 1G    // Bandwith 10G
+const char* DATARATE = "100Mbps"; //Bandwidth 1G    // Bandwith 10G
 const char* DELAY = "3us"; // Delay 3us (0.000001s -> 0.0001s)  (3ms = 0.001s -> 0.1s)
 
 const int PKTSIZE = 1438; // pkt size payload

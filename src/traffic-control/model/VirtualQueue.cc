@@ -79,11 +79,15 @@ namespace ns3 {
     int VXQ::getSrcPort(Ptr<QueueDiscItem> item){
 
         //TODO: add function to get ports
-
+        /*
         //for debugging
-        this.currSrcPort = portAddOne(this->currSrcPort);
+        this->currSrcPort = (this->currSrcPort + 1) % 2;
     
-        return this.currSrcPort;
+        return this->currSrcPort;
+        */
+       int srcPort = 0;
+
+       return srcPort;
     }
 
     int VXQ::getDstPort(Ptr<QueueDiscItem> item){
@@ -126,8 +130,8 @@ namespace ns3 {
         if(re!=0){
             // cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;     //for debugging
             //FIXME:
-            // cout<<"length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort)<<endl;
-            // InSwitchRoundRobin();
+            cout<<"length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort)<<endl;
+            InSwitchRoundRobin();
             
             return true;
         }
@@ -137,7 +141,7 @@ namespace ns3 {
             return false;
         }
         
-        // InSwitchRoundRobin();
+        InSwitchRoundRobin();
 
         return true;
     }
@@ -145,9 +149,12 @@ namespace ns3 {
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
         //In-switch transmission
         // cout<<"In-switch transmission."<<endl;      //for debugging
+        /*
+        //FIXME: choose suitable place for InSwitchRoundRobin()
         for(int i=0; i < SPEEDUP_FACTOR; i++){
             InSwitchRoundRobin();
         }
+        */
 
         //dequeue
         // cout<<"Dequeue"<<endl;      //for debugging
@@ -226,7 +233,7 @@ namespace ns3 {
                 // cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;   //for debugging
                 vqueues->InSwitchTransmission(src,dst);
                 //FIXME:
-                // cout<<"length of VIQ["<<dst<<","<<src<<"]= "<<vqueues->getFifoNPackets(1,dst,src)<<endl;
+                cout<<"length of VIQ["<<dst<<","<<src<<"]= "<<vqueues->getFifoNPackets(1,dst,src)<<endl;
 
                 currDst[src] = portAddOne(dst);
             //}
