@@ -91,7 +91,7 @@ namespace ns3 {
         //TODO: add function to get ports
 
         //for debug
-        int dstPort = 1;
+        int dstPort = 128;
         
         return dstPort;
     }
@@ -140,8 +140,10 @@ namespace ns3 {
     }
 
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
-        cout<<"Dequeue: in-switch transmission."<<endl;
-        InSwitchRoundRobin();
+        cout<<"Dequeue: 5 in-switch transmission."<<endl;
+        for(int i=0; i<5; i++){
+            InSwitchRoundRobin();
+        }
 
         cout<<"Dequeue"<<endl;
         int count = 0;
