@@ -115,7 +115,7 @@ namespace ns3 {
         vqueues->checkVoqFlag(srcPort, dstPort);
         bool flag = vqueues->getVoqFlag(srcPort, dstPort);
         if(flag == true){
-            cout<<"This stream ("<<srcPort<<","<<dstPort<<") has been paused."<<endl;
+            // cout<<"This stream ("<<srcPort<<","<<dstPort<<") has been paused."<<endl;   //for debugging
             Drop(item);
 
             return false;
