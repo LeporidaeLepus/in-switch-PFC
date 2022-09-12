@@ -80,7 +80,7 @@ namespace ns3 {
 
         //TODO: add function to get ports
 
-        //for debug
+        //for debugging
         int srcPort = 0;
     
         return srcPort;
@@ -90,7 +90,7 @@ namespace ns3 {
 
         //TODO: add function to get ports
 
-        //for debug
+        //for debugging
         int dstPort = 127;
         
         return dstPort;
@@ -106,7 +106,7 @@ namespace ns3 {
         int srcPort = getSrcPort(item);
         int dstPort = getDstPort(item);
         if(srcPort == dstPort){
-            cout<<"Input port cannot be the same as Output port."<<endl;
+            cout<<"Input port cannot be the same as Output port."<<endl;    //for debugging
             Drop(item);
 
             return false;
@@ -124,7 +124,7 @@ namespace ns3 {
         Ptr<QueueDiscItem> re = vqueues->voqEnqueue(item, srcPort, dstPort);
 
         if(re!=0){
-            cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;
+            // cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;     //for debugging
             
             return true;
         }
@@ -141,13 +141,13 @@ namespace ns3 {
 
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
         //In-switch transmission
-        cout<<"In-switch transmission."<<endl;
+        // cout<<"In-switch transmission."<<endl;      //for debugging
         for(int i=0; i < SPEEDUP_FACTOR; i++){
             InSwitchRoundRobin();
         }
 
         //dequeue
-        cout<<"Dequeue"<<endl;
+        // cout<<"Dequeue"<<endl;      //for debugging
         int count = 0;
         bool flag = getPortFlag(this->currentPort);
         //find next port which has packets available for dequeue
@@ -214,11 +214,12 @@ namespace ns3 {
                 }
                 if(count==this->nport-1){
                     currDst[src] = portAddOne(dst);
-                    cout<<"SrcPort "<<src<<" is paused or empty."<<endl;
+                    // cout<<"SrcPort "<<src<<" is paused or empty."<<endl;
+                    cout<<"SrcPort "<<src<<" is paused."<<endl;
                     continue;
                 }  
 
-                cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;
+                // cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;   //for debugging
                 vqueues->InSwitchTransmission(src,dst);
 
                 currDst[src] = portAddOne(dst);
@@ -229,7 +230,7 @@ namespace ns3 {
 
     bool VXQ::arePortsEqual(int src, int dst){
         if(src==dst){
-            // cout<<"src: "<<src<<" = dst: "<<dst<<endl;      //for debug
+            // cout<<"src: "<<src<<" = dst: "<<dst<<endl;      //for debugging
             return true;
         } 
 
@@ -238,7 +239,7 @@ namespace ns3 {
 
     int VXQ::skipEqualDstPort(int src, int dst){
         if(arePortsEqual(src,dst)){
-            // cout<<"equal"<<endl;        //for debug
+            // cout<<"equal"<<endl;        //for debugging
             dst = portAddOne(dst);
         } 
 
@@ -246,7 +247,7 @@ namespace ns3 {
     }
 
     int VXQ::portAddOne(int port){
-        // cout<<"port + 1 = "<<port<<" + 1"<<endl;    //for debug
+        // cout<<"port + 1 = "<<port<<" + 1"<<endl;    //for debugging
         return (port+1)%this->nport;
     }
 

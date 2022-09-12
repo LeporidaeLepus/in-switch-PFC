@@ -89,7 +89,7 @@ namespace ns3{
         checkVoqFlag(src, dst);
         if((src!=dst) && (VIQ_flag[src][dst]!=true)){
             fifos[0][src][dst]->Enqueue(item);
-            cout<<"VOQ["<<src<<","<<dst<<"] receives a packet."<<endl;
+            // cout<<"VOQ["<<src<<","<<dst<<"] receives a packet."<<endl;  //for debugging
         }
 
         return item;
@@ -99,7 +99,7 @@ namespace ns3{
         NS_LOG_FUNCTION(this);
 
         fifos[1][dst][src]->Enqueue(item);
-        cout<<"VIQ["<<dst<<","<<src<<"] receives a packet."<<endl;
+        // cout<<"VIQ["<<dst<<","<<src<<"] receives a packet."<<endl;  //for debugging
 
         return item;
     }
@@ -108,7 +108,7 @@ namespace ns3{
         NS_LOG_FUNCTION(this);
 
         Ptr<QueueDiscItem> item = StaticCast<QueueDiscItem>(fifos[0][src][dst]->Dequeue());
-        cout<<"VOQ["<<src<<","<<dst<<"] sends a packet out."<<endl;  //for debug
+        // cout<<"VOQ["<<src<<","<<dst<<"] sends a packet out."<<endl;  //for debugging
 
         return GetPointer(item);
     }
@@ -117,7 +117,7 @@ namespace ns3{
         NS_LOG_FUNCTION(this);
 
         Ptr<QueueDiscItem> item = StaticCast<QueueDiscItem>(fifos[1][dst][src]->Dequeue());
-        cout<<"VIQ["<<dst<<","<<src<<"] sends a packet out."<<endl;  //for debugging
+        // cout<<"VIQ["<<dst<<","<<src<<"] sends a packet out."<<endl;  //for debugging
 
         return GetPointer(item);
     }
@@ -126,8 +126,8 @@ namespace ns3{
         int npkt = getFifoNPackets(0,src,dst);
         bool oflag = getVoqFlag(src,dst);
 
-        cout<<"# in VOQ["<<src<<", "<<dst<<"] = "<<npkt<<endl;
-        // cout<<"oflag = "<<oflag<<endl;  //for debug
+        // cout<<"# in VOQ["<<src<<", "<<dst<<"] = "<<npkt<<endl;  //for dubugging
+        // cout<<"oflag = "<<oflag<<endl;  //for debugging
         
         if(oflag == false){  
             if(npkt < VOQ_OFF){ 
@@ -151,7 +151,7 @@ namespace ns3{
         int npkt = getFifoNPackets(1,dst,src);
         bool iflag = getViqFlag(src,dst);
 
-        cout<<"# in VIQ["<<dst<<", "<<src<<"] = "<<npkt<<endl;
+        // cout<<"# in VIQ["<<dst<<", "<<src<<"] = "<<npkt<<endl;  //for debugging
 
         if(iflag == false){
             if(npkt < VIQ_OFF){
@@ -183,10 +183,10 @@ namespace ns3{
             viqEnqueue(item,src,dst);
         }
         else if(VIQ_flag[dst][src] == true){
-            cout<<"VOQ["<<src<<","<<dst<<"] has been paused, cannot send out packets now."<<endl;   //for debug
+            cout<<"VOQ["<<src<<","<<dst<<"] has been paused, cannot send out packets now."<<endl;   //for debugging
         }
         else if(src == dst){
-            cout<<"Output port cannot be the same as input port." <<endl;  //for debug
+            cout<<"Output port cannot be the same as input port." <<endl;  //for debugging
         }  
     }
 
@@ -209,7 +209,7 @@ namespace ns3{
             }
         }
 
-        // cout<<"port("<<pair<<","<<port<<") is empty."<<endl;        //for debug
+        // cout<<"port("<<pair<<","<<port<<") is empty."<<endl;        //for debugging
         return true;
     }
 
