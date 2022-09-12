@@ -116,8 +116,6 @@ namespace ns3 {
             return false;
         }
 
-        InSwitchRoundRobin();
-
         vqueues->checkVoqFlag(srcPort, dstPort);
         bool flag = vqueues->getVoqFlag(srcPort, dstPort);
         if(flag == true){
@@ -136,13 +134,15 @@ namespace ns3 {
             cout<<"Enqueue -> length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort)<<endl;
             // InSwitchRoundRobin();
             
-            return true;
+            // return true;
         }
         else{
             cout<<"Enqueue false. No package is enqueued."<<endl;
 
             return false;
         }
+
+        InSwitchRoundRobin();
 
         return true;
     }
@@ -156,6 +156,7 @@ namespace ns3 {
             InSwitchRoundRobin();
         }
         */
+       InSwitchRoundRobin();
 
         //dequeue
         // cout<<"Dequeue"<<endl;      //for debugging
@@ -237,8 +238,8 @@ namespace ns3 {
                 // cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;   //for debugging
                 vqueues->InSwitchTransmission(src,dst);
                 //FIXME:
-                cout<<"In-switch transmission -> length of VIQ["<<dst<<", "<<src<<"] = "<<vqueues->getFifoNPackets(1,dst,src)
-                <<"; length of VIQ["<<dst<<","<<src<<"]= "<<vqueues->getFifoNPackets(1,dst,src)<<endl;
+                cout<<"In-switch TX -> VOQ["<<src<<", "<<dst<<"] = "<<vqueues->getFifoNPackets(0,src,dst)
+                <<"; VIQ["<<dst<<","<<src<<"]= "<<vqueues->getFifoNPackets(1,dst,src)<<endl;
 
                 currDst[src] = portAddOne(dst);
             //}
