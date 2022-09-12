@@ -32,6 +32,8 @@ namespace ns3{
         bool* port_flag = NULL;     //flag to show whether this port paused by downstream.
         int* currDst = NULL;    //for in-switch round robin
 
+        int currSrcPort = 0;    //for debuggings 
+
         QueueCreate* vqueues;
 
         int getSrcPort(Ptr<QueueDiscItem> item);

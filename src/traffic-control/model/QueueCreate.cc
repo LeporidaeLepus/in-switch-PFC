@@ -135,6 +135,7 @@ namespace ns3{
             }
             else if (npkt >= VOQ_OFF){      //When the num of pkts in VOQ is larger than the high threshold
                 setVoqFlag(src,dst,true);    //Set flag to true and send PAUSE to upstream
+                cout<<"Upstream through port "<<src<<" is PAUSED."<<endl;
             }           
         }
         else if (oflag == true){
@@ -143,6 +144,7 @@ namespace ns3{
             }
             else if(npkt < VOQ_ON){         //When the num of pkts in VOQ is less than the low threshold
                 setVoqFlag(src,dst,false);   //Set flag to false and send RESUME to upstream
+                cout<<"Upstream through port "<<src<<" is RESUMED."<<endl;
             }
         }
     }
@@ -159,7 +161,7 @@ namespace ns3{
             }
             else if (npkt >= VIQ_OFF){      //When the num of pkts in VIQ is larger than the high threshold
                 setViqFlag(src,dst,true);    //Set flag to true and send PAUSE to VOQ
-                cout<<"VOQ["<<src<<", "<<dst<<"] is PAUSED"<<endl;
+                cout<<"VOQ["<<src<<", "<<dst<<"] is PAUSED."<<endl;
             }
         }
         else if (iflag == true){
@@ -168,7 +170,7 @@ namespace ns3{
             }
             else if(npkt < VOQ_ON){         //When the num of pkts in VIQ is less than the low threshold
                 setViqFlag(src,dst,false);   //Set flag to false and send RESUME to VOQ
-                cout<<"VOQ["<<src<<", "<<dst<<"] is RESUMED"<<endl;
+                cout<<"VOQ["<<src<<", "<<dst<<"] is RESUMED."<<endl;
             }
         }
     }

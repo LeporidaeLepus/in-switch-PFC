@@ -81,9 +81,9 @@ namespace ns3 {
         //TODO: add function to get ports
 
         //for debugging
-        int srcPort = 0;
+        this.currSrcPort = portAddOne(this->currSrcPort);
     
-        return srcPort;
+        return this.currSrcPort;
     }
 
     int VXQ::getDstPort(Ptr<QueueDiscItem> item){
