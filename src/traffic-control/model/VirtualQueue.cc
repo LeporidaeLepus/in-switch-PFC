@@ -122,9 +122,10 @@ namespace ns3 {
         bool flag = vqueues->getVoqFlag(srcPort, dstPort);
         if(flag == true){
             // cout<<"This stream ("<<srcPort<<","<<dstPort<<") has been paused."<<endl;   //for debugging
+            //FIXME: VOQ will not drop the pkts out of OFF treshold since pstream need time for reaction.
             // Drop(item);
 
-            return false;
+            // return false;
         }
 
         Ptr<QueueDiscItem> re = vqueues->voqEnqueue(item, srcPort, dstPort);
@@ -182,6 +183,7 @@ namespace ns3 {
         }
 
         QueueDiscItem* re = vqueues->viqDequeue(crvq, crp);
+        vqueues->checkViqFlag(src,dst);
         //FIXME:
         cout<<"length of VIQ["<<crp<<","<<crvq<<"]= "<<vqueues->getFifoNPackets(1,crp,cdvq)<<endl;
 
