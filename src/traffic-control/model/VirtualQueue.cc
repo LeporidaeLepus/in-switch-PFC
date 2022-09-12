@@ -91,7 +91,7 @@ namespace ns3 {
         //TODO: add function to get ports
 
         //for debug
-        int dstPort = 128;
+        int dstPort = 127;
         
         return dstPort;
     }
