@@ -133,7 +133,7 @@ namespace ns3 {
         if(re!=0){
             // cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;     //for debugging
             //FIXME:
-            cout<<"length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort)<<endl;
+            cout<<"Enqueue -> length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort)<<endl;
             // InSwitchRoundRobin();
             
             return true;
@@ -185,7 +185,7 @@ namespace ns3 {
         QueueDiscItem* re = vqueues->viqDequeue(crvq, crp);
         vqueues->checkViqFlag(crvq,crp);
         //FIXME:
-        cout<<"length of VIQ["<<crp<<","<<crvq<<"]= "<<vqueues->getFifoNPackets(1,crp,crvq)<<endl;
+        cout<<"Dequeue -> length of VIQ["<<crp<<","<<crvq<<"]= "<<vqueues->getFifoNPackets(1,crp,crvq)<<endl;
 
         crvq = (crvq+1)%this->nport;
         this->currentVQueue[crp] = crvq;
@@ -237,7 +237,8 @@ namespace ns3 {
                 // cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;   //for debugging
                 vqueues->InSwitchTransmission(src,dst);
                 //FIXME:
-                cout<<"length of VIQ["<<dst<<","<<src<<"]= "<<vqueues->getFifoNPackets(1,dst,src)<<endl;
+                cout<<"In-switch transmission -> length of VIQ["<<dst<<", "<<src<<"] = "<<vqueues->getFifoNPackets(1,dst,src)
+                <<"; length of VIQ["<<dst<<","<<src<<"]= "<<vqueues->getFifoNPackets(1,dst,src)<<endl;
 
                 currDst[src] = portAddOne(dst);
             //}
