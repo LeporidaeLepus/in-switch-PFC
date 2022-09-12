@@ -174,14 +174,16 @@ namespace ns3 {
             flag = getPortFlag(this->currentPort);
         }
 
-        int crp = this->currentPort;
-        int crvq = this->currentVQueue[crp];
+        int crp = this->currentPort;    //dst
+        int crvq = this->currentVQueue[crp];    //src
 
         while((crvq == crp) || vqueues->isSelectedFifoEmpty(1,crp,crvq)){
             crvq = (crvq+1)%this->nport;
         }
 
         QueueDiscItem* re = vqueues->viqDequeue(crvq, crp);
+        //FIXME:
+        cout<<"length of VIQ["<<crp<<","<<crvq<<"]= "<<vqueues->getFifoNPackets(1,crp,cdvq)<<endl;
 
         crvq = (crvq+1)%this->nport;
         this->currentVQueue[crp] = crvq;
