@@ -116,11 +116,13 @@ namespace ns3 {
             return false;
         }
 
+        InSwitchRoundRobin();
+
         vqueues->checkVoqFlag(srcPort, dstPort);
         bool flag = vqueues->getVoqFlag(srcPort, dstPort);
         if(flag == true){
             // cout<<"This stream ("<<srcPort<<","<<dstPort<<") has been paused."<<endl;   //for debugging
-            Drop(item);
+            // Drop(item);
 
             return false;
         }
@@ -131,7 +133,7 @@ namespace ns3 {
             // cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;     //for debugging
             //FIXME:
             cout<<"length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort)<<endl;
-            InSwitchRoundRobin();
+            // InSwitchRoundRobin();
             
             return true;
         }
@@ -140,8 +142,6 @@ namespace ns3 {
 
             return false;
         }
-        
-        InSwitchRoundRobin();
 
         return true;
     }
