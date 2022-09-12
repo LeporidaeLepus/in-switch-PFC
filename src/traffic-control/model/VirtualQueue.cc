@@ -125,7 +125,7 @@ namespace ns3 {
 
         if(re!=0){
             // cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;     //for debugging
-            cout<<"length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<getFifoNPackets(0,srcPort,dstPort);
+            cout<<"length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort);
             
             return true;
         }
@@ -224,7 +224,7 @@ namespace ns3 {
 
                 // cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;   //for debugging
                 vqueues->InSwitchTransmission(src,dst);
-                cout<<"length of VIQ["<<srcPort<<","<<dstPort<<"]= "<<getFifoNPackets(1,dst,src);
+                cout<<"length of VIQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(1,dst,src);
 
                 currDst[src] = portAddOne(dst);
             //}
