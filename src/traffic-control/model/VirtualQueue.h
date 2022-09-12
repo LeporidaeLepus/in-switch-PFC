@@ -21,7 +21,7 @@ namespace ns3{
         static const int DEFAULT_PAIR = 128;  //default number of queue pairs or ports
         static const int PER_PAIR = 2;  //number of queue groups per queue pair
         static const int DEFAULT_FIFO_N_SIZE = 20;
-        static const int SPEEDUP_FACTOR = 1;
+        static const int SPEEDUP_FACTOR = 5;
         static const int INSWITCH_INTERVAL = 0;   //time unit is microsecond (10^(-6) seconds)
 
         int pair;   //number of queue pairs

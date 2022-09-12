@@ -126,8 +126,8 @@ namespace ns3{
         int npkt = getFifoNPackets(0,src,dst);
         bool oflag = getVoqFlag(src,dst);
 
-        cout<<"# in VOQ["<<src<<", "<<dst<<"] = "<<npkt;
-        cout<<"oflag = "<<oflag<<endl;
+        cout<<"# in VOQ["<<src<<", "<<dst<<"] = "<<npkt<<endl;
+        // cout<<"oflag = "<<oflag<<endl;  //for debug
         
         if(oflag == false){  
             if(npkt < VOQ_OFF){ 
@@ -151,7 +151,7 @@ namespace ns3{
         int npkt = getFifoNPackets(1,dst,src);
         bool iflag = getViqFlag(src,dst);
 
-        cout<<"# in VIQ["<<dst<<", "<<src<<"] = "<<npkt;
+        cout<<"# in VIQ["<<dst<<", "<<src<<"] = "<<npkt<<endl;
 
         if(iflag == false){
             if(npkt < VIQ_OFF){
@@ -159,6 +159,7 @@ namespace ns3{
             }
             else if (npkt >= VIQ_OFF){      //When the num of pkts in VIQ is larger than the high threshold
                 setViqFlag(src,dst,true);    //Set flag to true and send PAUSE to VOQ
+                cout<<"VOQ["<<src<<", "<<dst<<"] is PAUSED"<<endl;
             }
         }
         else if (iflag == true){
@@ -167,6 +168,7 @@ namespace ns3{
             }
             else if(npkt < VOQ_ON){         //When the num of pkts in VIQ is less than the low threshold
                 setViqFlag(src,dst,false);   //Set flag to false and send RESUME to VOQ
+                cout<<"VOQ["<<src<<", "<<dst<<"] is RESUMED"<<endl;
             }
         }
     }

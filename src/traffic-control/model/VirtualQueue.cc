@@ -134,21 +134,24 @@ namespace ns3 {
             return false;
         }
         
-        InSwitchRoundRobin();
+        // InSwitchRoundRobin();
 
         return true;
     }
 
     Ptr<QueueDiscItem> VXQ::DoDequeue(){
-        cout<<"Dequeue: in-switch transmission."<<endl;
+        //In-switch transmission
+        cout<<"In-switch transmission."<<endl;
         for(int i=0; i < SPEEDUP_FACTOR; i++){
             InSwitchRoundRobin();
         }
 
+        //dequeue
         cout<<"Dequeue"<<endl;
         int count = 0;
         bool flag = getPortFlag(this->currentPort);
-        while((flag == true) || vqueues->isSelectedPortEmpty(1,currentPort)){ 
+        //find next port which has packets available for dequeue
+        while((flag == true) || vqueues->isSelectedPortEmpty(1,currentPort)){   //current port paused or empty
             count++;
             //If all ports are paused or empty, return 0
             if(count == this->nport){   
@@ -156,7 +159,7 @@ namespace ns3 {
                 return NULL;
             }
 
-            this->currentPort = (this->currentPort+1)%this->nport;
+            this->currentPort = portAddOne(this->currentPort);
             flag = getPortFlag(this->currentPort);
         }
 
