@@ -59,7 +59,7 @@ uint32_t total_send = 0;
 
 //traffic generation command:
 //python traffic_gen.py -c WebSearch_distribution.txt -n 128 -l 0.3 -b 1G -t 0.1
-const char* DATARATE = "200Mbps"; //Bandwidth 1G    // Bandwith 10G
+const char* DATARATE = "1Gbps"; //Bandwidth 1G    // Bandwith 10G
 const char* DELAY = "3us"; // Delay 3us (0.000001s -> 0.0001s)  (3ms = 0.001s -> 0.1s)
 
 const int PKTSIZE = 1438; // pkt size payload
@@ -447,7 +447,7 @@ main (int argc, char *argv[])
         Time::SetResolution (Time::NS);
 
         //flowf.open("/home/pc/ns-allinone-3.26/ns-3.26/scratch/flow_test.txt");
-        flowf.open("scratch/flow_test.txt"); //traffic_test.txt //traffic_fct_20 //traffic_load50
+        flowf.open("scratch/traffic.txt"); //traffic_test.txt //traffic_fct_20 //traffic_load50
         //flowf.open("scratch/flow_test.txt");
 	flowf >> flow_num;
         cout << "flow_num:" << flow_num << endl;
