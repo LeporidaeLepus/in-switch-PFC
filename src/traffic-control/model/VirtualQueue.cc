@@ -121,16 +121,16 @@ namespace ns3 {
         if(flag == true){
             // cout<<"This stream ("<<srcPort<<","<<dstPort<<") has been paused."<<endl;   //for debugging
             //FIXME: VOQ will not drop the pkts out of OFF treshold since pstream need time for reaction.
-            // Drop(item);
+            Drop(item);
 
-            // return false;
+            return false;
         }
 
         Ptr<QueueDiscItem> re = vqueues->voqEnqueue(item, srcPort, dstPort);
 
         if(re!=0){
             // cout<<"Enqueue to VOQ["<<srcPort<<","<<dstPort<<"]."<<endl;     //for debugging
-            //FIXME:
+            //COMMENT: remove 
             // cout<<"Enqueue -> length of VOQ["<<srcPort<<","<<dstPort<<"]= "<<vqueues->getFifoNPackets(0,srcPort,dstPort)<<endl;
             // InSwitchRoundRobin();
             
@@ -167,7 +167,7 @@ namespace ns3 {
             count++;
             //If all ports are paused or empty, return 0
             if(count == this->nport){   
-                //FIXME: cancle the recommandation
+                //COMMENT: remove 
                 // cout<<"No available port."<<endl;       //for debugging
                 return NULL;
             }
@@ -185,7 +185,7 @@ namespace ns3 {
 
         QueueDiscItem* re = vqueues->viqDequeue(crvq, crp);
         vqueues->checkViqFlag(crvq,crp);
-        //FIXME:
+        //COMMENT: remove 
         // cout<<"Dequeue -> length of VIQ["<<crp<<","<<crvq<<"]= "<<vqueues->getFifoNPackets(1,crp,crvq)<<endl;
 
         crvq = (crvq+1)%this->nport;
@@ -237,7 +237,7 @@ namespace ns3 {
 
                 // cout<<"In-switch triansmit from VOQ["<<src<<","<<dst<<"]."<<endl;   //for debugging
                 vqueues->InSwitchTransmission(src,dst);
-                //FIXME:
+                //COMMENT: remove 
                 // cout<<"In-switch TX -> VOQ["<<src<<", "<<dst<<"] = "<<vqueues->getFifoNPackets(0,src,dst)
                 // <<"; VIQ["<<dst<<","<<src<<"]= "<<vqueues->getFifoNPackets(1,dst,src)<<endl;
 
