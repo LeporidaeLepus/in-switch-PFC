@@ -119,8 +119,8 @@ private:
   bool            m_running;
   uint32_t        m_packetsSent;
   uint32_t        m_flowId;
-  uint8_t         m_src;
-  uint8_t         m_dst;
+  uint8_t         m_src;        //cannot be larger than 256
+  uint8_t         m_dst;        //cannot be larger than 256
 };
 
 MyApp::MyApp ()
