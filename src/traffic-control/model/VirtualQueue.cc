@@ -85,7 +85,15 @@ namespace ns3 {
     
         return this->currSrcPort;
         */
-       int srcPort = 0;
+    //    int srcPort = 0;
+
+        Ptr<Packet> packet = item->GetPacket();
+        PacketTagIterator pti = packet->GetPacketTagIterator(); 
+        Ptr<MyTag> tag_src;
+        pti->Next()->GetTag(tag_src);
+        int srcPort = (int)tag_src.GetSimpleValue ();
+
+        cout<<"srcPort: "<<srcPort<<endl;   //for debugging
 
        return srcPort;
     }
@@ -95,7 +103,16 @@ namespace ns3 {
         //TODO: add function to get ports
 
         //for debugging
-        int dstPort = 127;
+        // int dstPort = 127;
+
+        Ptr<Packet> packet = item->GetPacket();
+        PacketTagIterator pti = packet->GetPacketTagIterator(); 
+        Ptr<MyTag> tag_dst;
+        pti->Next();
+        pti->Next()->GetTag(tag_dst);
+        int dstPort = (int)tag_dst.GetSimpleValue ();
+        
+        cout<<"dstPort: "<<dstPort<<endl;   //for debugging
         
         return dstPort;
     }

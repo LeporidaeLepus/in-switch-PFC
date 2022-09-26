@@ -90,8 +90,6 @@ NodeContainer clientNodes, routers, serverNode, nodes;
 // Help to monitor cwnd
 AsciiTraceHelper asciiTraceHelper;
 
-
-
 class MyApp : public Application
 {
 public:
@@ -103,7 +101,7 @@ public:
    * \return The TypeId.
    */
   static TypeId GetTypeId (void);
-  void Setup (Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate, uint32_t flowId);
+  void Setup (Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate, uint32_t flowId, uint8_t src, uint8_t dst);
 
 private:
   virtual void StartApplication (void);
@@ -121,6 +119,8 @@ private:
   bool            m_running;
   uint32_t        m_packetsSent;
   uint32_t        m_flowId;
+  uint8_t         m_src;
+  uint8_t         m_dst;
 };
 
 MyApp::MyApp ()
@@ -131,7 +131,9 @@ MyApp::MyApp ()
     m_dataRate (0),
     m_sendEvent (),
     m_running (false),
-    m_packetsSent (0)
+    m_packetsSent (0),
+    m_src (0),
+    m_dst (0)
 {
 }
 
@@ -152,7 +154,7 @@ TypeId MyApp::GetTypeId (void)
 }
 
 void
-MyApp::Setup (Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate, uint32_t flowId)
+MyApp::Setup (Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate, uint32_t flowId, uint8_t src, unit8_t dst)
 {
   m_socket = socket;
   m_peer = address;
@@ -160,6 +162,8 @@ MyApp::Setup (Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t
   m_nPackets = nPackets;
   m_dataRate = dataRate;
   m_flowId = flowId;
+  m_src = src;
+  m_dst = dst;
 }
 
 void
@@ -192,6 +196,14 @@ void
 MyApp::SendPacket (void)
 {   
   Ptr<Packet> packet = Create<Packet> (m_packetSize);
+
+  //Add tag
+  MyTag tag_src, tag_dst;
+  tag_src.SetSimpleValue(m_src);
+  tag_dst.SetSimpleValue(m_dst);
+  packet->AddPacketTag (tag_src);
+  packet->AddPacketTag (tag_dst);  
+
   m_socket->Send (packet);
   total_send += 1;
   //std::cout<< "m_packetsSent:" << m_packetsSent << " flowPktsTx[" << m_flowId << "]:" << flowPktsTx[m_flowId] << " m_nPackets:" << m_nPackets << std::endl;
@@ -276,7 +288,7 @@ void ScheduleFlowInputs(){
                 Ptr<Socket> ns3TcpSocket = Socket::CreateSocket (nodes.Get (flow_input.src), TcpSocketFactory::GetTypeId ());
                 ns3TcpSocket->SetAttribute("SndBufSize", ns3::UintegerValue(1438000000));
                 Ptr<MyApp> app = CreateObject<MyApp> ();
-                app->Setup (ns3TcpSocket, sinkAddress, PKTSIZE, flow_input.maxPacketCount, DataRate (DATARATE), flow_input.idx); // (TODO flow size) Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate
+                app->Setup (ns3TcpSocket, sinkAddress, PKTSIZE, flow_input.maxPacketCount, DataRate (DATARATE), flow_input.idx, flow_input.src, flow_input.dst); // (TODO flow size) Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate
                 nodes.Get(flow_input.src)->AddApplication (app);
                 app->SetStartTime (Seconds (0.));
                 //app->SetStopTime (Seconds (stopTime));
