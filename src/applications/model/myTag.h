@@ -18,8 +18,12 @@ namespace ns3{
         MyTag();
         ~MyTag();
 
+        //override abstract methods in base class ‘Tag’
+        virtual uint32_t GetSerializedSize (void) const;
         virtual void Serialize (TagBuffer i) const;
         virtual void Deserialize (TagBuffer i);
+        virtual void Print (std::ostream &os) const;
+        
         // these are our accessors to our tag structure
         void SetSimpleValue (uint8_t value);
         uint8_t GetSimpleValue (void) const;

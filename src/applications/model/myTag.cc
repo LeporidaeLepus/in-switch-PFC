@@ -26,6 +26,11 @@ namespace ns3{
         
     }
 
+    unit32_t MyTag::GetSerializedSize (void) const
+    {
+        return 1;
+    }
+
     void MyTag::Serialize (TagBuffer i) const
     {
         i.WriteU8 (m_simpleValue);
@@ -34,6 +39,11 @@ namespace ns3{
     void MyTag::Deserialize (TagBuffer i)
     {
         m_simpleValue = i.ReadU8 ();
+    }
+
+    void MyTag::Print (std::ostream &os) const
+    {
+        os << "v=" << (uint32_t)m_simpleValue;
     }
 
     void MyTag::SetSimpleValue (uint8_t value)
