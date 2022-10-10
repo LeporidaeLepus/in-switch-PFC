@@ -8,18 +8,22 @@
 using namespace std;
 
 namespace ns3{
-    class MyTag : public MyTag
+    class MyTag : public Tag
     {
     private:
         uint8_t m_simpleValue;
     public:
         static TypeId GetTypeId (void);
+
+        MyTag();
+        ~MyTag();
+        
         virtual void Serialize (TagBuffer i) const;
         virtual void Deserialize (TagBuffer i);
         // these are our accessors to our tag structure
         void SetSimpleValue (uint8_t value);
         uint8_t GetSimpleValue (void) const;
-    }
+    };
 }
 
 #endif //_QUEUE_CREATE_H_

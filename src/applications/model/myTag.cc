@@ -22,6 +22,10 @@ namespace ns3{
    return tid;
     }
 
+    MyTag::MyTag(){
+        
+    }
+
     void MyTag::Serialize (TagBuffer i) const
     {
         i.WriteU8 (m_simpleValue);
