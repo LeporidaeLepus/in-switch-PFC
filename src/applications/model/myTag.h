@@ -1,5 +1,5 @@
-#ifndef _QUEUE_CREATE_H_
-#define _QUEUE_CREATE_H_
+#ifndef _MY_TAG_H_
+#define _MY_TAG_H_
 #include "ns3/tag.h"
 #include "ns3/packet.h"
 #include "ns3/uinteger.h"
@@ -17,7 +17,7 @@ namespace ns3{
 
         MyTag();
         ~MyTag();
-        
+
         virtual void Serialize (TagBuffer i) const;
         virtual void Deserialize (TagBuffer i);
         // these are our accessors to our tag structure
@@ -26,4 +26,4 @@ namespace ns3{
     };
 }
 
-#endif //_QUEUE_CREATE_H_
+#endif //_MY_TAG_H_
