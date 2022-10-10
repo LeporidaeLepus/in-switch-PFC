@@ -5,6 +5,9 @@
 #include <iostream>
 
 namespace ns3{
+    NS_LOG_COMPONENT_DEFINE("myTag");
+    NS_OBJECT_ENSURE_REGISTERED(myTag);
+
     TypeId MyTag::GetTypeId (void)
     {
         static TypeId tid = TypeId ("ns3::MyTag")
