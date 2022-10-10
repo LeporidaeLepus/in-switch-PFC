@@ -19,7 +19,12 @@ namespace ns3{
                     MakeUintegerAccessor (&MyTag::GetSimpleValue),
                     MakeUintegerChecker<uint8_t> ())
         ;
-   return tid;
+        return tid;
+    }
+    
+    TypeId MyTag::GetInstanceTypeId (void) const
+    {
+       return GetTypeId ();
     }
 
     MyTag::MyTag(){

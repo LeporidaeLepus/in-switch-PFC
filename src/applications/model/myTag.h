@@ -14,6 +14,7 @@ namespace ns3{
         uint8_t m_simpleValue;
     public:
         static TypeId GetTypeId (void);
+        virtual TypeId GetInstanceTypeId (void) const;
 
         MyTag();
         ~MyTag();
@@ -23,7 +24,7 @@ namespace ns3{
         virtual void Serialize (TagBuffer i) const;
         virtual void Deserialize (TagBuffer i);
         virtual void Print (std::ostream &os) const;
-        
+
         // these are our accessors to our tag structure
         void SetSimpleValue (uint8_t value);
         uint8_t GetSimpleValue (void) const;
