@@ -90,11 +90,9 @@ namespace ns3 {
 
         Ptr<Packet> packet = item->GetPacket();
         PacketTagIterator pti = packet->GetPacketTagIterator(); 
-        Tag *tag_src;
-        MyTag *mytag_src;
-        pti.Next().GetTag(tag_src);
-        mytag_src = dynamic_cast(tag_src);
-        int srcPort = (int)my_tag_src.GetSimpleValue ();
+        MyTag tag_src;
+        pti.Next().GetTag((Tag)tag_src);
+        int srcPort = (int)tag_src.GetSimpleValue ();
 
         cout<<"srcPort: "<<srcPort<<endl;   //for debugging
 
