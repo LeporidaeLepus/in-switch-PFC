@@ -4,6 +4,8 @@
 #include "ns3/myTag.h"
 #include <iostream>
 
+
+using namespace std;
 namespace ns3{
     NS_LOG_COMPONENT_DEFINE("MyTag");
     NS_OBJECT_ENSURE_REGISTERED(MyTag);
@@ -32,7 +34,7 @@ namespace ns3{
     }
 
     MyTag::~MyTag(){
-        NS_LOG_FUNCTION(this);
+        // NS_LOG_FUNCTION(this);
     }
 
     uint32_t MyTag::GetSerializedSize (void) const
