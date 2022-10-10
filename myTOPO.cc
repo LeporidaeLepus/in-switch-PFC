@@ -154,7 +154,7 @@ TypeId MyApp::GetTypeId (void)
 }
 
 void
-MyApp::Setup (Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate, uint32_t flowId, uint8_t src, unit8_t dst)
+MyApp::Setup (Ptr<Socket> socket, Address address, uint32_t packetSize, uint32_t nPackets, DataRate dataRate, uint32_t flowId, uint8_t src, uint8_t dst)
 {
   m_socket = socket;
   m_peer = address;
