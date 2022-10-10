@@ -5,8 +5,8 @@
 #include <iostream>
 
 namespace ns3{
-    NS_LOG_COMPONENT_DEFINE("myTag");
-    NS_OBJECT_ENSURE_REGISTERED(myTag);
+    NS_LOG_COMPONENT_DEFINE("MyTag");
+    NS_OBJECT_ENSURE_REGISTERED(MyTag);
 
     TypeId MyTag::GetTypeId (void)
     {
@@ -21,7 +21,7 @@ namespace ns3{
         ;
         return tid;
     }
-    
+
     TypeId MyTag::GetInstanceTypeId (void) const
     {
        return GetTypeId ();
@@ -31,7 +31,11 @@ namespace ns3{
         
     }
 
-    unit32_t MyTag::GetSerializedSize (void) const
+    MyTag::~MyTag(){
+        NS_LOG_FUNCTION(this);
+    }
+
+    uint32_t MyTag::GetSerializedSize (void) const
     {
         return 1;
     }
