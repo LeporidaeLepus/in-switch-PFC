@@ -95,6 +95,7 @@ namespace ns3 {
         Tag* tag_src = dynamic_cast<Tag*>(mytag_src);
         if(!pti.HasNext())
             return 0;   //for debugging
+        cout<<tag_src->GetInstanceTypeId ()<<endl;
         pti.Next().GetTag(*tag_src);
         int srcPort = (int)(mytag_src->GetSimpleValue ());
 
