@@ -203,7 +203,8 @@ MyApp::SendPacket (void)
   tag_src.SetSimpleValue(m_src);
   tag_dst.SetSimpleValue(m_dst);
   packet->AddPacketTag (tag_src);
-  NS_ASSERT(packet->GetPacketTagIterator().HasNext());  //for debugging
+  if(packet->GetPacketTagIterator().HasNext())
+        cout<<"add successfully"<<endl;  //for debugging
   packet->AddPacketTag (tag_dst);  
 
   m_socket->Send (packet);

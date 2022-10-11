@@ -115,7 +115,7 @@ namespace ns3 {
         MyDstTag* mytag_dst = new MyDstTag();
         Tag* tag_dst = dynamic_cast<Tag*>(mytag_dst);
         if(!pti.HasNext())
-            return 0;   //for debugging
+            return 127;   //for debugging
         pti.Next();
         pti.Next().GetTag(*tag_dst);
         int dstPort = (int)(mytag_dst->GetSimpleValue());
