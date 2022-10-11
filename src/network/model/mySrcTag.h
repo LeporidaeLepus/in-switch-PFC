@@ -16,8 +16,8 @@ namespace ns3{
         static TypeId GetTypeId (void);
         virtual TypeId GetInstanceTypeId (void) const;
 
-        MyTag();
-        ~MyTag();
+        MySrcTag();
+        ~MySrcTag();
 
         //override abstract methods in base class ‘Tag’
         virtual uint32_t GetSerializedSize (void) const;

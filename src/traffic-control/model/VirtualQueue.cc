@@ -92,7 +92,8 @@ namespace ns3 {
         Ptr<Packet> packet = item->GetPacket();
         PacketTagIterator pti = packet->GetPacketTagIterator(); 
         MySrcTag* mytag_src = new MySrcTag();
-        Tag* tag_src = dynamic_cast<Tag*>(mySrctag_src);
+        Tag* tag_src = dynamic_cast<Tag*>(mytag_src);
+        assert(pti.HasNext());  //for debugging
         pti.Next().GetTag(*tag_src);
         int srcPort = (int)(mytag_src->GetSimpleValue ());
 
@@ -110,7 +111,7 @@ namespace ns3 {
 
         Ptr<Packet> packet = item->GetPacket();
         PacketTagIterator pti = packet->GetPacketTagIterator(); 
-        MyDstTag* myDsttag_dst = new MyDstTag();
+        MyDstTag* mytag_dst = new MyDstTag();
         Tag* tag_dst = dynamic_cast<Tag*>(mytag_dst);
         pti.Next();
         pti.Next().GetTag(*tag_dst);
