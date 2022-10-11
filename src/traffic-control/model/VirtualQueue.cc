@@ -1,6 +1,7 @@
 #include "ns3/VirtualQueue.h"
 #include "ns3/QueueCreate.h"
-#include "ns3/myTag.h"
+#include "ns3/mySrcTag.h"
+#include "ns3/myDstTag.h"
 #include <cmath>
 #include <sstream>
 #include <iostream>
@@ -90,8 +91,8 @@ namespace ns3 {
 
         Ptr<Packet> packet = item->GetPacket();
         PacketTagIterator pti = packet->GetPacketTagIterator(); 
-        MyTag* mytag_src;
-        Tag* tag_src = dynamic_cast<Tag*>(mytag_src);
+        MySrcTag* mytag_src = new MySrcTag();
+        Tag* tag_src = dynamic_cast<Tag*>(mySrctag_src);
         pti.Next().GetTag(*tag_src);
         int srcPort = (int)(mytag_src->GetSimpleValue ());
 
@@ -109,7 +110,7 @@ namespace ns3 {
 
         Ptr<Packet> packet = item->GetPacket();
         PacketTagIterator pti = packet->GetPacketTagIterator(); 
-        MyTag* mytag_dst;
+        MyDstTag* myDsttag_dst = new MyDstTag();
         Tag* tag_dst = dynamic_cast<Tag*>(mytag_dst);
         pti.Next();
         pti.Next().GetTag(*tag_dst);

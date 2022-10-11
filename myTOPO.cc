@@ -198,7 +198,8 @@ MyApp::SendPacket (void)
   Ptr<Packet> packet = Create<Packet> (m_packetSize);
 
   //Add tag
-  MyTag tag_src, tag_dst;
+  MySrcTag tag_src;
+  MyDstTag tag_dst;
   tag_src.SetSimpleValue(m_src);
   tag_dst.SetSimpleValue(m_dst);
   packet->AddPacketTag (tag_src);

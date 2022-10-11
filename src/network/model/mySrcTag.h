@@ -1,5 +1,5 @@
-#ifndef _MY_TAG_H_
-#define _MY_TAG_H_
+#ifndef _MY_SRC_TAG_H_
+#define _MY_SRC_TAG_H_
 #include "ns3/tag.h"
 #include "ns3/packet.h"
 #include "ns3/uinteger.h"
@@ -8,7 +8,7 @@
 using namespace std;
 
 namespace ns3{
-    class MyTag : public Tag
+    class MySrcTag : public Tag
     {
     private:
         uint8_t m_simpleValue;
@@ -31,4 +31,4 @@ namespace ns3{
     };
 }
 
-#endif //_MY_TAG_H_
+#endif //_MY_SRC_TAG_H_
