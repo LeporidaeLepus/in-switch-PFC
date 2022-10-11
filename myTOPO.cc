@@ -200,6 +200,7 @@ MyApp::SendPacket (void)
   //Add tag
   MySrcTag tag_src;
   MyDstTag tag_dst;
+  /* the tags are FILO */
   tag_src.SetSimpleValue(m_src);
   tag_dst.SetSimpleValue(m_dst);
   packet->AddPacketTag (tag_src);
@@ -268,7 +269,7 @@ void ReadFlowInput(){
                 flowSize[i] = flow_input.maxPacketCount;
                 startRxTime[i] = flow_input.start_time;
 
-		NS_ASSERT(flow_input.src != 0 && flow_input.dst == CLIENT_CNT + SERVER_CNT);
+		NS_ASSERT(flow_input.src != 0 && flow_input.dst <= CLIENT_CNT + SERVER_CNT);
 	}
 }
 void ScheduleFlowInputs(){

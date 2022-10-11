@@ -96,6 +96,7 @@ namespace ns3 {
         if(!pti.HasNext())
             return 0;   //for debugging
         cout<<tag_src->GetInstanceTypeId ()<<endl;
+        pti.Next();
         pti.Next().GetTag(*tag_src);
         int srcPort = (int)(mytag_src->GetSimpleValue ());
 
@@ -117,7 +118,7 @@ namespace ns3 {
         Tag* tag_dst = dynamic_cast<Tag*>(mytag_dst);
         if(!pti.HasNext())
             return 127;   //for debugging
-        pti.Next();
+        // pti.Next();
         pti.Next().GetTag(*tag_dst);
         int dstPort = (int)(mytag_dst->GetSimpleValue());
         
